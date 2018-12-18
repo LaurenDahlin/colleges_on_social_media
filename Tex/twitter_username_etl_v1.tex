@@ -1,0 +1,2645 @@
+
+% Default to the notebook output style
+
+    
+
+
+% Inherit from the specified cell style.
+
+
+
+
+    
+\documentclass[11pt]{article}
+
+    
+    
+    \usepackage[T1]{fontenc}
+    % Nicer default font (+ math font) than Computer Modern for most use cases
+    \usepackage{mathpazo}
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % We will generate all images so they have a width \maxwidth. This means
+    % that they will get their normal width if they fit onto the page, but
+    % are scaled down if they would overflow the margins.
+    \makeatletter
+    \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
+    \else\Gin@nat@width\fi}
+    \makeatother
+    \let\Oldincludegraphics\includegraphics
+    % Set max figure width to be 80% of text width, for now hardcoded.
+    \renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=.8\maxwidth]{#1}}
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionLabelFormat{nolabel}{}
+    \captionsetup{labelformat=nolabel}
+
+    \usepackage{adjustbox} % Used to constrain images to a maximum size 
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage[utf8x]{inputenc} % Allow utf-8 characters in the tex document
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range 
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    
+
+    
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatability definitions
+    \def\gt{>}
+    \def\lt{<}
+    % Document parameters
+    \title{twitter\_username\_etl\_v1}
+    
+    
+    
+
+    % Pygments definitions
+    
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@fm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sa\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@dl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % Exact colors from NB
+    \definecolor{incolor}{rgb}{0.0, 0.0, 0.5}
+    \definecolor{outcolor}{rgb}{0.545, 0.0, 0.0}
+
+
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+    \begin{document}
+    
+    
+    \maketitle
+    
+    
+
+    
+    \hypertarget{twitter-username-etl}{%
+\section{Twitter Username ETL}\label{twitter-username-etl}}
+
+    \hypertarget{set-up}{%
+\subsubsection{Set Up}\label{set-up}}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}1}]:} \PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k}{as} \PY{n+nn}{pd}
+        \PY{k+kn}{from} \PY{n+nn}{bs4} \PY{k}{import} \PY{n}{BeautifulSoup}
+        \PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+        \PY{k+kn}{import} \PY{n+nn}{os}\PY{o}{,} \PY{n+nn}{requests}\PY{o}{,} \PY{n+nn}{re}\PY{o}{,} \PY{n+nn}{time}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}2}]:} \PY{k+kn}{from} \PY{n+nn}{selenium} \PY{k}{import} \PY{n}{webdriver}
+        \PY{k+kn}{from} \PY{n+nn}{selenium}\PY{n+nn}{.}\PY{n+nn}{webdriver}\PY{n+nn}{.}\PY{n+nn}{firefox}\PY{n+nn}{.}\PY{n+nn}{options} \PY{k}{import} \PY{n}{Options}
+        \PY{k+kn}{from} \PY{n+nn}{selenium}\PY{n+nn}{.}\PY{n+nn}{webdriver}\PY{n+nn}{.}\PY{n+nn}{common}\PY{n+nn}{.}\PY{n+nn}{by} \PY{k}{import} \PY{n}{By}
+        \PY{k+kn}{from} \PY{n+nn}{selenium}\PY{n+nn}{.}\PY{n+nn}{webdriver}\PY{n+nn}{.}\PY{n+nn}{support}\PY{n+nn}{.}\PY{n+nn}{ui} \PY{k}{import} \PY{n}{WebDriverWait}
+        \PY{k+kn}{from} \PY{n+nn}{selenium}\PY{n+nn}{.}\PY{n+nn}{webdriver}\PY{n+nn}{.}\PY{n+nn}{common}\PY{n+nn}{.}\PY{n+nn}{keys} \PY{k}{import} \PY{n}{Keys}
+        \PY{k+kn}{from} \PY{n+nn}{selenium}\PY{n+nn}{.}\PY{n+nn}{webdriver}\PY{n+nn}{.}\PY{n+nn}{support}\PY{n+nn}{.}\PY{n+nn}{ui} \PY{k}{import} \PY{n}{Select}
+        \PY{k+kn}{from} \PY{n+nn}{selenium}\PY{n+nn}{.}\PY{n+nn}{common}\PY{n+nn}{.}\PY{n+nn}{exceptions} \PY{k}{import} \PY{n}{NoSuchElementException}
+        \PY{k+kn}{from} \PY{n+nn}{selenium}\PY{n+nn}{.}\PY{n+nn}{common}\PY{n+nn}{.}\PY{n+nn}{exceptions} \PY{k}{import} \PY{n}{NoAlertPresentException}
+\end{Verbatim}
+
+
+    \hypertarget{file-locations}{%
+\paragraph{File Locations}\label{file-locations}}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}3}]:} \PY{n}{base\PYZus{}path} \PY{o}{=} \PY{l+s+sa}{r}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{C:}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{Users}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{laure}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{Dropbox}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{!research}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{20181026\PYZus{}ihe\PYZus{}diversity}\PY{l+s+s2}{\PYZdq{}}
+        \PY{n}{sm\PYZus{}path} \PY{o}{=} \PY{n}{os}\PY{o}{.}\PY{n}{path}\PY{o}{.}\PY{n}{join}\PY{p}{(}\PY{n}{base\PYZus{}path}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{social\PYZus{}media\PYZus{}links}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{sm\PYZus{}py\PYZus{}path} \PY{o}{=} \PY{n}{os}\PY{o}{.}\PY{n}{path}\PY{o}{.}\PY{n}{join}\PY{p}{(}\PY{n}{base\PYZus{}path}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{python\PYZus{}scraping}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{scrape\PYZus{}handles}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{tw\PYZus{}path} \PY{o}{=} \PY{n}{os}\PY{o}{.}\PY{n}{path}\PY{o}{.}\PY{n}{join}\PY{p}{(}\PY{n}{base\PYZus{}path}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{twitter\PYZus{}handles}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+
+
+    \hypertarget{import-cross-notebook-funtions}{%
+\paragraph{Import cross-notebook
+funtions}\label{import-cross-notebook-funtions}}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}4}]:} \PY{n}{social\PYZus{}media\PYZus{}py} \PY{o}{=} \PY{n+nb}{str}\PY{p}{(}\PY{n}{os}\PY{o}{.}\PY{n}{path}\PY{o}{.}\PY{n}{join}\PY{p}{(}\PY{n}{sm\PYZus{}py\PYZus{}path}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{social\PYZus{}media\PYZus{}urls.py}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+        \PY{o}{\PYZpc{}}\PY{k}{run} \PYZdl{}social\PYZus{}media\PYZus{}py
+\end{Verbatim}
+
+
+    \hypertarget{import-social-media-file-scraped-previously}{%
+\subsection{Import social media file scraped
+previously}\label{import-social-media-file-scraped-previously}}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}5}]:} \PY{n}{scraped\PYZus{}urls} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{n}{os}\PY{o}{.}\PY{n}{path}\PY{o}{.}\PY{n}{join}\PY{p}{(}\PY{n}{sm\PYZus{}path}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ihe\PYZus{}sm\PYZus{}pages\PYZus{}v2.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{,} \PY{n}{engine}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{python}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{index\PYZus{}col}\PY{o}{=}\PY{k+kc}{False}\PY{p}{,} \PY{n}{header}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{sep}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{;}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{skipinitialspace}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+        \PY{c+c1}{\PYZsh{} Strip any unncessary whitespace}
+        \PY{n}{scraped\PYZus{}urls} \PY{o}{=} \PY{n}{scraped\PYZus{}urls}\PY{o}{.}\PY{n}{apply}\PY{p}{(}\PY{k}{lambda} \PY{n}{x}\PY{p}{:} \PY{n}{x}\PY{o}{.}\PY{n}{str}\PY{o}{.}\PY{n}{strip}\PY{p}{(}\PY{p}{)} \PY{k}{if} \PY{n}{x}\PY{o}{.}\PY{n}{dtype} \PY{o}{==} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{object}\PY{l+s+s2}{\PYZdq{}} \PY{k}{else} \PY{n}{x}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}6}]:} \PY{n}{scraped\PYZus{}urls}\PY{o}{.}\PY{n}{columns}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}6}]:} Index(['unitid', 'instnm', 'url\_main', 'url\_admissions', 'twitter\_links',
+               'facebook\_links', 'instagram\_links'],
+              dtype='object')
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}7}]:} \PY{c+c1}{\PYZsh{} Two things to correct: errors from Googling and schools }
+        \PY{c+c1}{\PYZsh{} that did not list Twitter URLs on homepage}
+        \PY{n}{scraped\PYZus{}urls}\PY{o}{.}\PY{n}{twitter\PYZus{}links}\PY{o}{.}\PY{n}{value\PYZus{}counts}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}7}]:} ['No Twitter found']    37
+        Error                   22
+        Name: twitter\_links, dtype: int64
+\end{Verbatim}
+            
+    \hypertarget{search-again-for-universities-with-errors}{%
+\subsubsection{Search again for universities with
+errors}\label{search-again-for-universities-with-errors}}
+
+    Schools to search for again.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}8}]:} \PY{n}{re\PYZus{}google} \PY{o}{=} \PY{n}{scraped\PYZus{}urls}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{n}{scraped\PYZus{}urls}\PY{o}{.}\PY{n}{twitter\PYZus{}links}\PY{o}{==}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Error}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\end{Verbatim}
+
+
+    Search again as in scrape\_ihe\_handles
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{c+c1}{\PYZsh{} Write csv header}
+        \PY{k}{if} \PY{o+ow}{not} \PY{n}{os}\PY{o}{.}\PY{n}{path}\PY{o}{.}\PY{n}{isfile}\PY{p}{(}\PY{n}{os}\PY{o}{.}\PY{n}{path}\PY{o}{.}\PY{n}{join}\PY{p}{(}\PY{n}{sm\PYZus{}path}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{re\PYZus{}google.csv}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+            \PY{k}{with} \PY{n+nb}{open}\PY{p}{(}\PY{n}{os}\PY{o}{.}\PY{n}{path}\PY{o}{.}\PY{n}{join}\PY{p}{(}\PY{n}{sm\PYZus{}path}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{re\PYZus{}google.csv}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{w}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{k}{as} \PY{n}{f}\PY{p}{:}
+                \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{unitid; instnm; url\PYZus{}main; url\PYZus{}admissions; twitter\PYZus{}links; facebook\PYZus{}links; instagram\PYZus{}links}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{file}\PY{o}{=}\PY{n}{f}\PY{p}{)}
+        
+        \PY{c+c1}{\PYZsh{} Initialize headless Firefox browser}
+        \PY{n}{options} \PY{o}{=} \PY{n}{Options}\PY{p}{(}\PY{p}{)}
+        \PY{n}{options}\PY{o}{.}\PY{n}{headless} \PY{o}{=} \PY{k+kc}{True}
+        \PY{n}{driver} \PY{o}{=} \PY{n}{webdriver}\PY{o}{.}\PY{n}{Firefox}\PY{p}{(}\PY{n}{options}\PY{o}{=}\PY{n}{options}\PY{p}{)}
+        
+        \PY{k}{for} \PY{n}{index}\PY{p}{,} \PY{n}{row} \PY{o+ow}{in} \PY{n}{re\PYZus{}google}\PY{o}{.}\PY{n}{iterrows}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+            \PY{k}{try}\PY{p}{:}
+                \PY{c+c1}{\PYZsh{} Get URL from base webpage}
+                \PY{n}{ihe\PYZus{}url} \PY{o}{=} \PY{n}{feeling\PYZus{}lucky}\PY{p}{(}\PY{n}{row}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{instnm}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{driver}\PY{o}{=}\PY{n}{driver}\PY{p}{)}
+        
+                \PY{c+c1}{\PYZsh{} Get Twitter links}
+                \PY{n}{main\PYZus{}twitter\PYZus{}links}\PY{p}{,} \PY{n}{main\PYZus{}facebook\PYZus{}links}\PY{p}{,} \PY{n}{main\PYZus{}instagram\PYZus{}links} \PY{o}{=} \PY{n}{get\PYZus{}handles}\PY{p}{(}\PY{n}{url}\PY{o}{=}\PY{n}{ihe\PYZus{}url}\PY{p}{,} \PY{n}{driver}\PY{o}{=}\PY{n}{driver}\PY{p}{)}
+        
+                \PY{c+c1}{\PYZsh{} Also search for admissions page to see if Twitter is different}
+                \PY{n}{admissions\PYZus{}url} \PY{o}{=} \PY{n}{feeling\PYZus{}lucky}\PY{p}{(}\PY{n}{row}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{instnm}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{+} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ admissions}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{driver}\PY{o}{=}\PY{n}{driver}\PY{p}{)}
+        
+                \PY{c+c1}{\PYZsh{} Get Twitter links for admissions page}
+                \PY{n}{adm\PYZus{}twitter\PYZus{}links}\PY{p}{,} \PY{n}{adm\PYZus{}facebook\PYZus{}links}\PY{p}{,} \PY{n}{adm\PYZus{}instagram\PYZus{}links} \PY{o}{=} \PY{n}{get\PYZus{}handles}\PY{p}{(}\PY{n}{url}\PY{o}{=}\PY{n}{admissions\PYZus{}url}\PY{p}{,} \PY{n}{driver}\PY{o}{=}\PY{n}{driver}\PY{p}{)}
+        
+                \PY{c+c1}{\PYZsh{} If no links found, add NA}
+                \PY{c+c1}{\PYZsh{} Twitter}
+                \PY{k}{if} \PY{o+ow}{not} \PY{n}{main\PYZus{}twitter\PYZus{}links} \PY{o+ow}{and} \PY{o+ow}{not} \PY{n}{adm\PYZus{}twitter\PYZus{}links}\PY{p}{:}
+                    \PY{n}{main\PYZus{}twitter\PYZus{}links} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{No Twitter found}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+                \PY{k}{if} \PY{o+ow}{not} \PY{n}{main\PYZus{}facebook\PYZus{}links} \PY{o+ow}{and} \PY{o+ow}{not} \PY{n}{adm\PYZus{}facebook\PYZus{}links}\PY{p}{:}
+                    \PY{n}{main\PYZus{}facebook\PYZus{}links} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{No Facebook found}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+                \PY{k}{if} \PY{o+ow}{not} \PY{n}{main\PYZus{}instagram\PYZus{}links} \PY{o+ow}{and} \PY{o+ow}{not} \PY{n}{adm\PYZus{}instagram\PYZus{}links}\PY{p}{:}
+                    \PY{n}{main\PYZus{}instagram\PYZus{}links} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{No Instagram found}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+        
+                \PY{c+c1}{\PYZsh{} Remove any duplicate links}
+                \PY{n}{twitter\PYZus{}links} \PY{o}{=} \PY{n}{rm\PYZus{}dup}\PY{p}{(}\PY{n}{main\PYZus{}twitter\PYZus{}links} \PY{o}{+} \PY{n}{adm\PYZus{}twitter\PYZus{}links}\PY{p}{)}
+                \PY{n}{facebook\PYZus{}links} \PY{o}{=} \PY{n}{rm\PYZus{}dup}\PY{p}{(}\PY{n}{main\PYZus{}facebook\PYZus{}links} \PY{o}{+} \PY{n}{adm\PYZus{}facebook\PYZus{}links}\PY{p}{)}
+                \PY{n}{instagram\PYZus{}links} \PY{o}{=} \PY{n}{rm\PYZus{}dup}\PY{p}{(}\PY{n}{main\PYZus{}instagram\PYZus{}links} \PY{o}{+} \PY{n}{adm\PYZus{}instagram\PYZus{}links}\PY{p}{)}
+        
+                \PY{c+c1}{\PYZsh{} Pring on page and write to csv file}
+                \PY{n+nb}{print}\PY{p}{(}\PY{n+nb}{str}\PY{p}{(}\PY{n}{row}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{unitid}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)} \PY{o}{+} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{,}\PY{l+s+s1}{\PYZsq{}} \PY{o}{+} \PY{n}{row}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{instnm}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{+} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{,}\PY{l+s+s1}{\PYZsq{}} \PY{o}{+} \PY{n}{ihe\PYZus{}url} \PY{o}{+} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{,}\PY{l+s+s1}{\PYZsq{}} 
+                          \PY{o}{+} \PY{n}{admissions\PYZus{}url} \PY{o}{+} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{,}\PY{l+s+s1}{\PYZsq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{twitter\PYZus{}links}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)} \PY{o}{+} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{,}\PY{l+s+s1}{\PYZsq{}} 
+                          \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{facebook\PYZus{}links}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)} \PY{o}{+} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{,}\PY{l+s+s1}{\PYZsq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{instagram\PYZus{}links}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+                \PY{k}{with} \PY{n+nb}{open}\PY{p}{(}\PY{n}{os}\PY{o}{.}\PY{n}{path}\PY{o}{.}\PY{n}{join}\PY{p}{(}\PY{n}{sm\PYZus{}path}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{re\PYZus{}google.csv}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{a}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{k}{as} \PY{n}{f}\PY{p}{:}
+                    \PY{n+nb}{print}\PY{p}{(}\PY{n+nb}{str}\PY{p}{(}\PY{n}{row}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{unitid}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)} \PY{o}{+} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{;}\PY{l+s+s1}{\PYZsq{}} \PY{o}{+} \PY{n}{row}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{instnm}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{+} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{;}\PY{l+s+s1}{\PYZsq{}} \PY{o}{+} \PY{n}{ihe\PYZus{}url} \PY{o}{+} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{;}\PY{l+s+s1}{\PYZsq{}} 
+                        \PY{o}{+} \PY{n}{admissions\PYZus{}url} \PY{o}{+} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{;}\PY{l+s+s1}{\PYZsq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{twitter\PYZus{}links}\PY{p}{)} \PY{o}{+} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{;}\PY{l+s+s1}{\PYZsq{}} 
+                        \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{facebook\PYZus{}links}\PY{p}{)} \PY{o}{+} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{;}\PY{l+s+s1}{\PYZsq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{instagram\PYZus{}links}\PY{p}{)}\PY{p}{,} \PY{n}{file}\PY{o}{=}\PY{n}{f}\PY{p}{)}
+            
+            \PY{k}{except}\PY{p}{:}
+                \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Error: }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{row}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{unitid}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)} \PY{o}{+} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ \PYZhy{} }\PY{l+s+s1}{\PYZsq{}} \PY{o}{+} \PY{n}{row}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{instnm}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+                \PY{k}{with} \PY{n+nb}{open}\PY{p}{(}\PY{n}{os}\PY{o}{.}\PY{n}{path}\PY{o}{.}\PY{n}{join}\PY{p}{(}\PY{n}{sm\PYZus{}path}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{re\PYZus{}google.csv}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{a}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{k}{as} \PY{n}{f}\PY{p}{:}
+                    \PY{n+nb}{print}\PY{p}{(}\PY{n+nb}{str}\PY{p}{(}\PY{n}{row}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{unitid}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)} \PY{o}{+} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{;}\PY{l+s+s1}{\PYZsq{}} \PY{o}{+} \PY{n}{row}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{instnm}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{+} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{;}\PY{l+s+s1}{\PYZsq{}} \PY{o}{+} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Error}\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{;}\PY{l+s+s1}{\PYZsq{}} \PY{o}{+} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Error}\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{;}\PY{l+s+s1}{\PYZsq{}} \PY{o}{+} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Error}\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{;}\PY{l+s+s1}{\PYZsq{}} \PY{o}{+} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Error}\PY{l+s+s2}{\PYZdq{}}\PY{o}{+} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{;}\PY{l+s+s1}{\PYZsq{}} \PY{o}{+} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Error}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{file}\PY{o}{=}\PY{n}{f}\PY{p}{)}
+                    
+        \PY{n}{driver}\PY{o}{.}\PY{n}{quit}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}9}]:} \PY{n}{re\PYZus{}google\PYZus{}df} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{n}{os}\PY{o}{.}\PY{n}{path}\PY{o}{.}\PY{n}{join}\PY{p}{(}\PY{n}{sm\PYZus{}path}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{re\PYZus{}google.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{,} \PY{n}{engine}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{python}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{index\PYZus{}col}\PY{o}{=}\PY{k+kc}{False}\PY{p}{,} \PY{n}{header}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{sep}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{;}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{skipinitialspace}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+        \PY{c+c1}{\PYZsh{} Strip any unncessary whitespace}
+        \PY{n}{re\PYZus{}google\PYZus{}df} \PY{o}{=} \PY{n}{re\PYZus{}google\PYZus{}df}\PY{o}{.}\PY{n}{apply}\PY{p}{(}\PY{k}{lambda} \PY{n}{x}\PY{p}{:} \PY{n}{x}\PY{o}{.}\PY{n}{str}\PY{o}{.}\PY{n}{strip}\PY{p}{(}\PY{p}{)} \PY{k}{if} \PY{n}{x}\PY{o}{.}\PY{n}{dtype} \PY{o}{==} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{object}\PY{l+s+s2}{\PYZdq{}} \PY{k}{else} \PY{n}{x}\PY{p}{)}
+\end{Verbatim}
+
+
+    \hypertarget{manual-fix-for-schools-not-found-in-re-google}{%
+\subsubsection{Manual fix for schools not found in
+re-google}\label{manual-fix-for-schools-not-found-in-re-google}}
+
+    Fix this later
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}10}]:} \PY{n}{manual\PYZus{}fix} \PY{o}{=} \PY{n}{re\PYZus{}google\PYZus{}df}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{n}{re\PYZus{}google\PYZus{}df}\PY{o}{.}\PY{n}{twitter\PYZus{}links}\PY{o}{==}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Error}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}11}]:} \PY{c+c1}{\PYZsh{} Only three schools}
+         \PY{n}{manual\PYZus{}fix}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}11}]:}    unitid                    instnm url\_main url\_admissions twitter\_links  \textbackslash{}
+         0  104717   Grand Canyon University    Error          Error         Error   
+         6  232265        Hampton University    Error          Error         Error   
+         7  100654  Alabama A \& M University    Error          Error         Error   
+         
+           facebook\_links instagram\_links  
+         0          Error           Error  
+         6          Error           Error  
+         7          Error           Error  
+\end{Verbatim}
+            
+    \hypertarget{search-for-twitter-pages-of-schools-where-twitter-not-listed-on-main-page}{%
+\subsubsection{Search for twitter pages of schools where Twitter not
+listed on main
+page}\label{search-for-twitter-pages-of-schools-where-twitter-not-listed-on-main-page}}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}15}]:} \PY{n}{find\PYZus{}twitter} \PY{o}{=} \PY{n}{scraped\PYZus{}urls}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{n}{scraped\PYZus{}urls}\PY{o}{.}\PY{n}{twitter\PYZus{}links}\PY{o}{==}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{[}\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{No Twitter found}\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{]}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{c+c1}{\PYZsh{} Initialize headless Firefox browser}
+        \PY{n}{options} \PY{o}{=} \PY{n}{Options}\PY{p}{(}\PY{p}{)}
+        \PY{n}{options}\PY{o}{.}\PY{n}{headless} \PY{o}{=} \PY{k+kc}{True}
+        \PY{n}{driver} \PY{o}{=} \PY{n}{webdriver}\PY{o}{.}\PY{n}{Firefox}\PY{p}{(}\PY{n}{options}\PY{o}{=}\PY{n}{options}\PY{p}{)}
+        
+        \PY{k}{for} \PY{n}{index}\PY{p}{,} \PY{n}{row} \PY{o+ow}{in} \PY{n}{find\PYZus{}twitter}\PY{o}{.}\PY{n}{iterrows}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+            \PY{k}{try}\PY{p}{:}
+                \PY{c+c1}{\PYZsh{} Search for institution + twitter on Google}
+                \PY{n}{ihe\PYZus{}tw\PYZus{}url} \PY{o}{=} \PY{n}{feeling\PYZus{}lucky}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{twitter }\PY{l+s+s1}{\PYZsq{}} \PY{o}{+} \PY{n}{row}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{instnm}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{driver}\PY{o}{=}\PY{n}{driver}\PY{p}{)}
+                \PY{n}{ihe\PYZus{}tw\PYZus{}url} \PY{o}{=} \PY{n}{ihe\PYZus{}tw\PYZus{}url}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{?}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsh{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+                
+                \PY{c+c1}{\PYZsh{} Also search for admissions page to see if Twitter is different}
+                \PY{n}{admissions\PYZus{}tw\PYZus{}url} \PY{o}{=} \PY{n}{feeling\PYZus{}lucky}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{twitter }\PY{l+s+s1}{\PYZsq{}} \PY{o}{+} \PY{n}{row}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{instnm}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{+} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ admissions}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{driver}\PY{o}{=}\PY{n}{driver}\PY{p}{)}
+                \PY{n}{admissions\PYZus{}tw\PYZus{}url} \PY{o}{=} \PY{n}{admissions\PYZus{}tw\PYZus{}url}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{?}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsh{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+                
+                \PY{c+c1}{\PYZsh{} Put urls in list}
+                \PY{n}{twitter\PYZus{}list} \PY{o}{=} \PY{p}{[}\PY{n}{ihe\PYZus{}tw\PYZus{}url}\PY{p}{,} \PY{n}{admissions\PYZus{}tw\PYZus{}url}\PY{p}{]}
+                
+                \PY{c+c1}{\PYZsh{} Remove any duplicate links}
+                \PY{n}{twitter\PYZus{}links} \PY{o}{=} \PY{n}{rm\PYZus{}dup}\PY{p}{(}\PY{n}{twitter\PYZus{}list}\PY{p}{)}
+        
+                \PY{c+c1}{\PYZsh{} Print out URLs for manual checking}
+                \PY{n+nb}{print}\PY{p}{(}\PY{n}{row}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{instnm}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{+} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ }\PY{l+s+s1}{\PYZsq{}} \PY{o}{+} \PY{n}{ihe\PYZus{}tw\PYZus{}url} \PY{o}{+} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ }\PY{l+s+s1}{\PYZsq{}} \PY{o}{+} \PY{n}{admissions\PYZus{}tw\PYZus{}url}\PY{p}{)}
+                
+                \PY{c+c1}{\PYZsh{} Update df}
+                \PY{n}{find\PYZus{}twitter}\PY{o}{.}\PY{n}{at}\PY{p}{[}\PY{n}{index}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{twitter\PYZus{}links}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{twitter\PYZus{}links}
+                
+            \PY{k}{except}\PY{p}{:}
+                \PY{k}{continue}
+                    
+        \PY{n}{driver}\PY{o}{.}\PY{n}{quit}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \hypertarget{combine-original-csv-with-new-results-from-updated-google-search-and-twitter-search}{%
+\subsubsection{Combine original csv with new results from updated google
+search and twitter
+search}\label{combine-original-csv-with-new-results-from-updated-google-search-and-twitter-search}}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}12}]:} \PY{c+c1}{\PYZsh{} Remove errors and twitter not found entries}
+         \PY{n}{updated\PYZus{}urls} \PY{o}{=} \PY{n}{scraped\PYZus{}urls}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{p}{(}\PY{n}{scraped\PYZus{}urls}\PY{o}{.}\PY{n}{twitter\PYZus{}links} \PY{o}{!=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Error}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{o}{\PYZam{}} \PY{p}{(}\PY{n}{scraped\PYZus{}urls}\PY{o}{.}\PY{n}{twitter\PYZus{}links}\PY{o}{!=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{[}\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{No Twitter found}\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{]}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{]}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}13}]:} \PY{c+c1}{\PYZsh{} Append new data}
+         \PY{n}{updated\PYZus{}urls} \PY{o}{=} \PY{n}{updated\PYZus{}urls}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{re\PYZus{}google\PYZus{}df}\PY{p}{)}
+         \PY{n}{updated\PYZus{}urls} \PY{o}{=} \PY{n}{updated\PYZus{}urls}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{find\PYZus{}twitter}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+        ---------------------------------------------------------------------------
+
+        NameError                                 Traceback (most recent call last)
+
+        <ipython-input-13-e331606e92ae> in <module>()
+          1 \# Append new data
+          2 updated\_urls = updated\_urls.append(re\_google\_df)
+    ----> 3 updated\_urls = updated\_urls.append(find\_twitter)
+    
+
+        NameError: name 'find\_twitter' is not defined
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}14}]:} \PY{n}{updated\PYZus{}urls} \PY{o}{=} \PY{n}{updated\PYZus{}urls}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{p}{(}\PY{n}{updated\PYZus{}urls}\PY{o}{.}\PY{n}{twitter\PYZus{}links} \PY{o}{!=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Error}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{o}{\PYZam{}} \PY{p}{(}\PY{n}{updated\PYZus{}urls}\PY{o}{.}\PY{n}{twitter\PYZus{}links}\PY{o}{!=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{[}\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{No Twitter found}\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{]}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{]}
+\end{Verbatim}
+
+
+    \hypertarget{manually-review-twitter-links}{%
+\subsubsection{Manually review Twitter
+links}\label{manually-review-twitter-links}}
+
+    Remove links related to athletics, news, duplicates with different
+spellings.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{c+c1}{\PYZsh{} Print links to csv for manual review}
+        \PY{k}{for} \PY{n}{index}\PY{p}{,} \PY{n}{row} \PY{o+ow}{in} \PY{n}{updated\PYZus{}urls}\PY{o}{.}\PY{n}{iterrows}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+            \PY{n}{show\PYZus{}links} \PY{o}{=} \PY{n+nb}{str}\PY{p}{(}\PY{n}{row}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{twitter\PYZus{}links}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{strip}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{[]}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+            \PY{n}{show\PYZus{}links} \PY{o}{=} \PY{n}{show\PYZus{}links}\PY{o}{.}\PY{n}{replace}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+            \PY{n}{show\PYZus{}links} \PY{o}{=} \PY{n}{show\PYZus{}links}\PY{o}{.}\PY{n}{replace}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{,}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{;}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+            \PY{k}{with} \PY{n+nb}{open}\PY{p}{(}\PY{n}{os}\PY{o}{.}\PY{n}{path}\PY{o}{.}\PY{n}{join}\PY{p}{(}\PY{n}{tw\PYZus{}path}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{review\PYZus{}twitter.csv}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{a}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{k}{as} \PY{n}{f}\PY{p}{:}
+                \PY{n+nb}{print}\PY{p}{(}\PY{n+nb}{str}\PY{p}{(}\PY{n}{row}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{unitid}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)} \PY{o}{+} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{;}\PY{l+s+s1}{\PYZsq{}} \PY{o}{+} \PY{n}{row}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{instnm}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{+} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{;}\PY{l+s+s1}{\PYZsq{}} \PY{o}{+} \PY{n}{show\PYZus{}links}\PY{p}{,} \PY{n}{file}\PY{o}{=}\PY{n}{f}\PY{p}{)}
+\end{Verbatim}
+
+
+    \hypertarget{google-search-for-missing-admissions-pages}{%
+\subsubsection{Google search for missing admissions
+pages}\label{google-search-for-missing-admissions-pages}}
+
+    Unfortunately many schools appear not to put their admissions twitters
+directly on their admissions page. Do a google search for missing
+schools - manually examine the top two google results for the admissions
+page.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}16}]:} \PY{k}{def} \PY{n+nf}{google\PYZus{}search}\PY{p}{(}\PY{n}{search\PYZus{}text}\PY{p}{,} \PY{n}{result\PYZus{}num}\PY{p}{,} \PY{n}{driver}\PY{p}{)}\PY{p}{:}
+             \PY{n}{driver}\PY{o}{.}\PY{n}{get}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{http://www.google.com/}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+             \PY{n}{time}\PY{o}{.}\PY{n}{sleep}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{)}
+             \PY{n}{driver}\PY{o}{.}\PY{n}{find\PYZus{}element\PYZus{}by\PYZus{}name}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{q}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{o}{.}\PY{n}{click}
+             \PY{n}{driver}\PY{o}{.}\PY{n}{find\PYZus{}element\PYZus{}by\PYZus{}name}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{q}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{o}{.}\PY{n}{send\PYZus{}keys}\PY{p}{(}\PY{n}{search\PYZus{}text}\PY{p}{)}
+             \PY{n}{time}\PY{o}{.}\PY{n}{sleep}\PY{p}{(}\PY{l+m+mf}{0.5}\PY{p}{)}
+             \PY{n}{driver}\PY{o}{.}\PY{n}{find\PYZus{}element\PYZus{}by\PYZus{}name}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{q}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{o}{.}\PY{n}{send\PYZus{}keys}\PY{p}{(}\PY{n}{Keys}\PY{o}{.}\PY{n}{TAB}\PY{p}{)}
+             \PY{n}{time}\PY{o}{.}\PY{n}{sleep}\PY{p}{(}\PY{l+m+mf}{0.5}\PY{p}{)}
+             \PY{n}{driver}\PY{o}{.}\PY{n}{find\PYZus{}element\PYZus{}by\PYZus{}name}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{q}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{o}{.}\PY{n}{send\PYZus{}keys}\PY{p}{(}\PY{n}{Keys}\PY{o}{.}\PY{n}{ENTER}\PY{p}{)}
+             \PY{n}{time}\PY{o}{.}\PY{n}{sleep}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{)}
+             \PY{c+c1}{\PYZsh{} Result }
+             \PY{n}{result\PYZus{}text} \PY{o}{=} \PY{n}{driver}\PY{o}{.}\PY{n}{find\PYZus{}element\PYZus{}by\PYZus{}xpath}\PY{p}{(}\PY{l+s+sa}{r}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{(.//*[@class=}\PY{l+s+s1}{\PYZdq{}}\PY{l+s+s1}{g}\PY{l+s+s1}{\PYZdq{}}\PY{l+s+s1}{][}\PY{l+s+s1}{\PYZsq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{result\PYZus{}num}\PY{p}{)} \PY{o}{+} \PY{l+s+sa}{r}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{]//descendant::a)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{o}{.}\PY{n}{text}
+             \PY{n}{result\PYZus{}link} \PY{o}{=} \PY{n}{driver}\PY{o}{.}\PY{n}{find\PYZus{}element\PYZus{}by\PYZus{}xpath}\PY{p}{(}\PY{l+s+sa}{r}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{(.//*[@class=}\PY{l+s+s1}{\PYZdq{}}\PY{l+s+s1}{g}\PY{l+s+s1}{\PYZdq{}}\PY{l+s+s1}{][}\PY{l+s+s1}{\PYZsq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{result\PYZus{}num}\PY{p}{)} \PY{o}{+} \PY{l+s+sa}{r}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{]//descendant::a}\PY{l+s+s1}{\PYZsq{}} \PY{o}{+} \PY{l+s+sa}{r}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{//descendant::div[1])}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{o}{.}\PY{n}{text}
+             \PY{k}{return} \PY{n}{result\PYZus{}text}\PY{p}{,} \PY{n}{result\PYZus{}link}  
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{k}{if} \PY{l+m+mi}{1}\PY{o}{==}\PY{l+m+mi}{2}\PY{p}{:}
+            \PY{n}{options} \PY{o}{=} \PY{n}{Options}\PY{p}{(}\PY{p}{)}
+            \PY{n}{options}\PY{o}{.}\PY{n}{headless} \PY{o}{=} \PY{k+kc}{False}
+            \PY{n}{driver} \PY{o}{=} \PY{n}{webdriver}\PY{o}{.}\PY{n}{Firefox}\PY{p}{(}\PY{n}{options}\PY{o}{=}\PY{n}{options}\PY{p}{)}
+            \PY{n}{result\PYZus{}text}\PY{p}{,} \PY{n}{result\PYZus{}link} \PY{o}{=} \PY{n}{google\PYZus{}search}\PY{p}{(}\PY{n}{search\PYZus{}text}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{twitter admissions University of Washington}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{result\PYZus{}num}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{driver}\PY{o}{=}\PY{n}{driver}\PY{p}{)}
+            \PY{n+nb}{print}\PY{p}{(}\PY{n}{result\PYZus{}text} \PY{o}{+} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZdq{}}  \PY{o}{+} \PY{n}{result\PYZus{}link}\PY{p}{)}
+            \PY{n}{driver}\PY{o}{.}\PY{n}{quit}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}79}]:}  \PY{n}{driver}\PY{o}{.}\PY{n}{quit}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}200}]:} \PY{n}{manual\PYZus{}review} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{n}{os}\PY{o}{.}\PY{n}{path}\PY{o}{.}\PY{n}{join}\PY{p}{(}\PY{n}{tw\PYZus{}path}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{manual\PYZus{}review.csv}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{,} \PY{n}{engine}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{python}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{header}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{sep}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{,}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}56}]:} \PY{n}{find\PYZus{}adm\PYZus{}tw} \PY{o}{=} \PY{n}{manual\PYZus{}review}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{n}{manual\PYZus{}review}\PY{o}{.}\PY{n}{admissions\PYZus{}link}\PY{o}{.}\PY{n}{isnull}\PY{p}{(}\PY{p}{)}\PY{p}{]}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}103}]:} \PY{n}{pd}\PY{o}{.}\PY{n}{set\PYZus{}option}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{display.max\PYZus{}rows}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+m+mi}{1000}\PY{p}{)}
+          \PY{c+c1}{\PYZsh{}find\PYZus{}adm\PYZus{}tw}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}70}]:} \PY{c+c1}{\PYZsh{} Create new cols in df}
+         \PY{k}{for} \PY{n}{new\PYZus{}col} \PY{o+ow}{in} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{likely\PYZus{}adm\PYZus{}link}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{likely\PYZus{}adm\PYZus{}text}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{google\PYZus{}text1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{google\PYZus{}link1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{google\PYZus{}text2}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{google\PYZus{}link2}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{:}
+             \PY{n}{find\PYZus{}adm\PYZus{}tw}\PY{p}{[}\PY{n}{new\PYZus{}col}\PY{p}{]} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsq{}}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}93}]:} \PY{c+c1}{\PYZsh{} Initialize headless Firefox browser}
+         \PY{n}{options} \PY{o}{=} \PY{n}{Options}\PY{p}{(}\PY{p}{)}
+         \PY{n}{options}\PY{o}{.}\PY{n}{headless} \PY{o}{=} \PY{k+kc}{True}
+         \PY{n}{driver} \PY{o}{=} \PY{n}{webdriver}\PY{o}{.}\PY{n}{Firefox}\PY{p}{(}\PY{n}{options}\PY{o}{=}\PY{n}{options}\PY{p}{)}
+         
+         \PY{k}{for} \PY{n}{index}\PY{p}{,} \PY{n}{row} \PY{o+ow}{in} \PY{n}{find\PYZus{}adm\PYZus{}tw}\PY{o}{.}\PY{n}{iterrows}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+             \PY{c+c1}{\PYZsh{} Search for twitter admissions + institution on Google}
+         
+             \PY{c+c1}{\PYZsh{} First result}
+             \PY{n}{google\PYZus{}text1}\PY{p}{,} \PY{n}{google\PYZus{}link1} \PY{o}{=} \PY{n}{google\PYZus{}search}\PY{p}{(}\PY{n}{search\PYZus{}text}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{twitter admissions }\PY{l+s+s1}{\PYZsq{}} \PY{o}{+} \PY{n}{row}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{instnm}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{result\PYZus{}num}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{driver}\PY{o}{=}\PY{n}{driver}\PY{p}{)}
+         
+             \PY{c+c1}{\PYZsh{} Second result}
+             \PY{n}{google\PYZus{}text2}\PY{p}{,} \PY{n}{google\PYZus{}link2} \PY{o}{=} \PY{n}{google\PYZus{}search}\PY{p}{(}\PY{n}{search\PYZus{}text}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{twitter admissions }\PY{l+s+s1}{\PYZsq{}} \PY{o}{+} \PY{n}{row}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{instnm}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{result\PYZus{}num}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{driver}\PY{o}{=}\PY{n}{driver}\PY{p}{)}
+         
+             \PY{c+c1}{\PYZsh{} Update df}
+             \PY{n}{find\PYZus{}adm\PYZus{}tw}\PY{o}{.}\PY{n}{at}\PY{p}{[}\PY{n}{index}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{google\PYZus{}text1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{google\PYZus{}text1}
+             \PY{n}{find\PYZus{}adm\PYZus{}tw}\PY{o}{.}\PY{n}{at}\PY{p}{[}\PY{n}{index}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{google\PYZus{}link1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{google\PYZus{}link1}
+             \PY{n}{find\PYZus{}adm\PYZus{}tw}\PY{o}{.}\PY{n}{at}\PY{p}{[}\PY{n}{index}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{google\PYZus{}text2}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{google\PYZus{}text2}
+             \PY{n}{find\PYZus{}adm\PYZus{}tw}\PY{o}{.}\PY{n}{at}\PY{p}{[}\PY{n}{index}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{google\PYZus{}link2}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{google\PYZus{}link2}
+             
+             \PY{c+c1}{\PYZsh{} If text contains admissions, put in likely link column}
+             \PY{k}{if} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{admission}\PY{l+s+s1}{\PYZsq{}} \PY{o+ow}{in} \PY{n}{google\PYZus{}text1}\PY{o}{.}\PY{n}{lower}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+                 \PY{n}{find\PYZus{}adm\PYZus{}tw}\PY{o}{.}\PY{n}{at}\PY{p}{[}\PY{n}{index}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{likely\PYZus{}adm\PYZus{}link}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{google\PYZus{}link1}
+                 \PY{n}{find\PYZus{}adm\PYZus{}tw}\PY{o}{.}\PY{n}{at}\PY{p}{[}\PY{n}{index}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{likely\PYZus{}adm\PYZus{}text}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{google\PYZus{}text1}
+             \PY{k}{if} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{admission}\PY{l+s+s1}{\PYZsq{}} \PY{o+ow}{in} \PY{n}{google\PYZus{}text2}\PY{o}{.}\PY{n}{lower}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+                 \PY{n}{find\PYZus{}adm\PYZus{}tw}\PY{o}{.}\PY{n}{at}\PY{p}{[}\PY{n}{index}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{likely\PYZus{}adm\PYZus{}link}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{google\PYZus{}link2}
+                 \PY{n}{find\PYZus{}adm\PYZus{}tw}\PY{o}{.}\PY{n}{at}\PY{p}{[}\PY{n}{index}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{likely\PYZus{}adm\PYZus{}text}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{google\PYZus{}text2}
+             
+             \PY{c+c1}{\PYZsh{} If no likely admission link, print google search results for review}
+             \PY{k}{if} \PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{admission}\PY{l+s+s1}{\PYZsq{}} \PY{o+ow}{not} \PY{o+ow}{in} \PY{n}{google\PYZus{}text1}\PY{o}{.}\PY{n}{lower}\PY{p}{(}\PY{p}{)}\PY{p}{)} \PY{o+ow}{and} \PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{admission}\PY{l+s+s1}{\PYZsq{}} \PY{o+ow}{not} \PY{o+ow}{in} \PY{n}{google\PYZus{}text2}\PY{o}{.}\PY{n}{lower}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+                 \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{1: }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{row}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{unitid}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)} \PY{o}{+} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n}{row}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{instnm}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{+} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n}{google\PYZus{}text1} \PY{o}{+} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n}{google\PYZus{}link1}\PY{p}{)}
+                 \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{2: }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{row}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{unitid}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)} \PY{o}{+} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n}{row}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{instnm}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{+} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n}{google\PYZus{}text2} \PY{o}{+} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n}{google\PYZus{}link2}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}94}]:} \PY{n}{driver}\PY{o}{.}\PY{n}{quit}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}105}]:} \PY{c+c1}{\PYZsh{} Save in case of needing to reload}
+          \PY{n}{find\PYZus{}adm\PYZus{}tw}\PY{o}{.}\PY{n}{to\PYZus{}pickle}\PY{p}{(}\PY{n}{os}\PY{o}{.}\PY{n}{path}\PY{o}{.}\PY{n}{join}\PY{p}{(}\PY{n}{tw\PYZus{}path}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{df\PYZus{}google\PYZus{}adm\PYZus{}tw}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+    \hypertarget{review-likely-admissions-twitter-pages}{%
+\subsubsection{Review likely admissions Twitter
+pages}\label{review-likely-admissions-twitter-pages}}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}102}]:} \PY{c+c1}{\PYZsh{} find\PYZus{}adm\PYZus{}tw[find\PYZus{}adm\PYZus{}tw.likely\PYZus{}adm\PYZus{}link != \PYZsq{}\PYZsq{}]}
+\end{Verbatim}
+
+
+    \hypertarget{replacements-from-manual-review}{%
+\subsubsection{Replacements from manual
+review}\label{replacements-from-manual-review}}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}215}]:} \PY{n}{find\PYZus{}adm\PYZus{}tw} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}pickle}\PY{p}{(}\PY{n}{os}\PY{o}{.}\PY{n}{path}\PY{o}{.}\PY{n}{join}\PY{p}{(}\PY{n}{tw\PYZus{}path}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{df\PYZus{}google\PYZus{}adm\PYZus{}tw}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}216}]:} \PY{n}{tw\PYZus{}df} \PY{o}{=} \PY{n}{manual\PYZus{}review}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}219}]:} \PY{n}{find\PYZus{}adm\PYZus{}tw} \PY{o}{=} \PY{n}{find\PYZus{}adm\PYZus{}tw}\PY{p}{[}\PY{n}{find\PYZus{}adm\PYZus{}tw}\PY{o}{.}\PY{n}{unitid}\PY{o}{.}\PY{n}{notnull}\PY{p}{(}\PY{p}{)}\PY{p}{]}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}220}]:} \PY{n}{tw\PYZus{}df}\PY{o}{.}\PY{n}{unitid} \PY{o}{=} \PY{n}{tw\PYZus{}df}\PY{o}{.}\PY{n}{unitid}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{int}\PY{p}{)}
+          \PY{n}{find\PYZus{}adm\PYZus{}tw}\PY{o}{.}\PY{n}{unitid} \PY{o}{=} \PY{n}{find\PYZus{}adm\PYZus{}tw}\PY{o}{.}\PY{n}{unitid}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{int}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}221}]:} \PY{n}{tw\PYZus{}df}\PY{o}{.}\PY{n}{set\PYZus{}index}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{unitid}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{inplace}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}222}]:} \PY{n}{find\PYZus{}adm\PYZus{}tw}\PY{o}{.}\PY{n}{set\PYZus{}index}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{unitid}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{inplace}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}223}]:} \PY{n}{find\PYZus{}adm\PYZus{}tw}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}223}]:}                                          instnm                     main\_link  \textbackslash{}
+          unitid                                                                          
+          154022                       Ashford University  https://twitter.com/AshfordU   
+          236948  University of Washington-Seattle Campus        https://twitter.com/UW   
+          
+                 admissions\_link                          likely\_adm\_link  \textbackslash{}
+          unitid                                                            
+          154022             NaN                                            
+          236948             NaN  https://twitter.com/seattleuadm?lang=en   
+          
+                                                    likely\_adm\_text  \textbackslash{}
+          unitid                                                      
+          154022                                                      
+          236948  Seattle U Admissions (@SeattleUAdm) | Twitter\textbackslash{}{\ldots}   
+          
+                                                       google\_text1  \textbackslash{}
+          unitid                                                      
+          154022  Ashford University (@AshfordU) | Twitter\textbackslash{}nhttp{\ldots}   
+          236948  U. of Washington (@UW) | Twitter\textbackslash{}nhttps://twit{\ldots}   
+          
+                                          google\_link1  \textbackslash{}
+          unitid                                         
+          154022  https://twitter.com/ashfordu?lang=en   
+          236948        https://twitter.com/uw?lang=en   
+          
+                                                       google\_text2  \textbackslash{}
+          unitid                                                      
+          154022  BridgepointEducation (@Bridgepoint\_Ed) | Twitt{\ldots}   
+          236948  Seattle U Admissions (@SeattleUAdm) | Twitter\textbackslash{}{\ldots}   
+          
+                                                google\_link2  
+          unitid                                              
+          154022  https://twitter.com/bridgepoint\_ed?lang=en  
+          236948     https://twitter.com/seattleuadm?lang=en  
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}224}]:} \PY{n}{tw\PYZus{}df}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}224}]:}                                instnm                         main\_link  \textbackslash{}
+          unitid                                                                    
+          154022             Ashford University      https://twitter.com/AshfordU   
+          132903  University of Central Florida       https://www.twitter.com/ucf   
+          134130          University of Florida           https://twitter.com/UF/   
+          193900            New York University  https://twitter.com/nyuniversity   
+          232557             Liberty University      https://twitter.com/libertyu   
+          
+                                    admissions\_link  
+          unitid                                     
+          154022                                NaN  
+          132903  https://twitter.com/ucfadmissions  
+          134130   https://twitter.com/UFAdmissions  
+          193900        https://twitter.com/meetnyu  
+          232557   https://twitter.com/ExperienceLU  
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}226}]:} \PY{c+c1}{\PYZsh{} False positive admissions pages \PYZhy{} Google didn\PYZsq{}t find the admissions twitter for the correct college}
+          \PY{n}{false\PYZus{}positive} \PY{o}{=} \PY{p}{[}\PY{l+m+mi}{212054}\PY{p}{,} \PY{l+m+mi}{196413}\PY{p}{,} \PY{l+m+mi}{144740}\PY{p}{,} \PY{l+m+mi}{243744}\PY{p}{,} \PY{l+m+mi}{202480}\PY{p}{,} \PY{l+m+mi}{117946}\PY{p}{,} \PY{l+m+mi}{140951}\PY{p}{,} 
+              \PY{l+m+mi}{188429}\PY{p}{,} \PY{l+m+mi}{130226}\PY{p}{,} \PY{l+m+mi}{181002}\PY{p}{,} \PY{l+m+mi}{366711}\PY{p}{,} \PY{l+m+mi}{151306}\PY{p}{,} \PY{l+m+mi}{166452}\PY{p}{,} \PY{l+m+mi}{182670}\PY{p}{,} \PY{l+m+mi}{164739}\PY{p}{,} \PY{l+m+mi}{151102}\PY{p}{,} \PY{l+m+mi}{216010}\PY{p}{,}
+              \PY{l+m+mi}{160038}\PY{p}{,} \PY{l+m+mi}{219709}\PY{p}{,} \PY{l+m+mi}{201104}\PY{p}{,} \PY{l+m+mi}{195544}\PY{p}{,} \PY{l+m+mi}{196042}\PY{p}{,} \PY{l+m+mi}{194541}\PY{p}{,} \PY{l+m+mi}{176053}\PY{p}{,} \PY{l+m+mi}{209056}\PY{p}{,} \PY{l+m+mi}{154688}\PY{p}{,} \PY{l+m+mi}{130697}\PY{p}{,}
+              \PY{l+m+mi}{221971}\PY{p}{,} \PY{l+m+mi}{209825}\PY{p}{,} \PY{l+m+mi}{130183}\PY{p}{,} \PY{l+m+mi}{141097}\PY{p}{,} \PY{l+m+mi}{190770}\PY{p}{,} \PY{l+m+mi}{162007}\PY{p}{,} \PY{l+m+mi}{220613}\PY{p}{,} \PY{l+m+mi}{164173}\PY{p}{,} \PY{l+m+mi}{216694}\PY{p}{,} \PY{l+m+mi}{191676}\PY{p}{,}
+              \PY{l+m+mi}{153108}\PY{p}{,} \PY{l+m+mi}{159993}\PY{p}{]}
+          
+          \PY{k}{for} \PY{n}{index}\PY{p}{,} \PY{n}{row} \PY{o+ow}{in} \PY{n}{tw\PYZus{}df}\PY{o}{.}\PY{n}{iterrows}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+                  
+              \PY{c+c1}{\PYZsh{} Replace the admissions link with the likely admissions link, as long as }
+              \PY{c+c1}{\PYZsh{} the school is not in the falso positive list}
+              \PY{k}{if} \PY{p}{(}\PY{n}{index} \PY{o+ow}{not} \PY{o+ow}{in} \PY{n}{false\PYZus{}positive}\PY{p}{)} \PY{o+ow}{and} \PY{p}{(}\PY{n}{index} \PY{o+ow}{in} \PY{n}{find\PYZus{}adm\PYZus{}tw}\PY{o}{.}\PY{n}{index}\PY{p}{)}\PY{p}{:}
+                  \PY{n}{tw\PYZus{}df}\PY{o}{.}\PY{n}{at}\PY{p}{[}\PY{n}{index}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{admissions\PYZus{}link}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{find\PYZus{}adm\PYZus{}tw}\PY{o}{.}\PY{n}{at}\PY{p}{[}\PY{n}{index}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{likely\PYZus{}adm\PYZus{}link}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+                  
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}227}]:} \PY{c+c1}{\PYZsh{} Admissions pages without \PYZsq{}admissions\PYZsq{} in the twitter page title }
+          \PY{c+c1}{\PYZsh{} Manually found from first two google results}
+          \PY{n}{in1} \PY{o}{=} \PY{p}{[}\PY{l+m+mi}{110583}\PY{p}{,} \PY{l+m+mi}{122755}\PY{p}{,} \PY{l+m+mi}{186867}\PY{p}{]}
+          \PY{n}{in2} \PY{o}{=} \PY{p}{[}\PY{l+m+mi}{229027}\PY{p}{,} \PY{l+m+mi}{207388}\PY{p}{,} \PY{l+m+mi}{204024}\PY{p}{,} \PY{l+m+mi}{126562}\PY{p}{,} \PY{l+m+mi}{169716}\PY{p}{]}
+          
+          \PY{k}{for} \PY{n}{index}\PY{p}{,} \PY{n}{row} \PY{o+ow}{in} \PY{n}{find\PYZus{}adm\PYZus{}tw}\PY{o}{.}\PY{n}{iterrows}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+                  
+              \PY{c+c1}{\PYZsh{} If index is in the first list, replace with the first google result}
+              \PY{k}{if} \PY{p}{(}\PY{n}{index} \PY{o+ow}{in} \PY{n}{in1}\PY{p}{)}\PY{p}{:}
+                  \PY{n}{tw\PYZus{}df}\PY{o}{.}\PY{n}{at}\PY{p}{[}\PY{n}{index}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{admissions\PYZus{}link}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{find\PYZus{}adm\PYZus{}tw}\PY{o}{.}\PY{n}{at}\PY{p}{[}\PY{n}{index}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{google\PYZus{}link1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+                  
+              \PY{c+c1}{\PYZsh{} If index is in the second list, replace with the second google result}
+              \PY{k}{if} \PY{p}{(}\PY{n}{index} \PY{o+ow}{in} \PY{n}{in1}\PY{p}{)}\PY{p}{:}
+                  \PY{n}{tw\PYZus{}df}\PY{o}{.}\PY{n}{at}\PY{p}{[}\PY{n}{index}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{admissions\PYZus{}link}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{find\PYZus{}adm\PYZus{}tw}\PY{o}{.}\PY{n}{at}\PY{p}{[}\PY{n}{index}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{google\PYZus{}link2}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}228}]:} \PY{c+c1}{\PYZsh{} Found from totally manual google search}
+          \PY{n}{tw\PYZus{}found\PYZus{}manually} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{p}{[}
+              \PY{p}{[}\PY{l+m+mi}{151379}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{https://twitter.com/iusadmissions}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}
+              \PY{p}{[}\PY{l+m+mi}{144962}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{https://twitter.com/ec\PYZus{}admissions}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}
+              \PY{p}{[}\PY{l+m+mi}{212054}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{https://twitter.com/DrexelAdmission}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}
+              \PY{p}{[}\PY{l+m+mi}{196413}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{https://twitter.com/GoSyracuseU}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}
+              \PY{p}{[}\PY{l+m+mi}{144740}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{https://twitter.com/DePaulAdmission}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}
+              \PY{p}{[}\PY{l+m+mi}{243744}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{https://twitter.com/engagestanford?lang=en}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}
+              \PY{p}{[}\PY{l+m+mi}{202480}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{https://twitter.com/DaytonAdmission}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}
+              \PY{p}{[}\PY{l+m+mi}{181002}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{https://twitter.com/ChooseCreighton}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}
+              \PY{p}{[}\PY{l+m+mi}{164739}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{https://twitter.com/UGABentley}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}
+              \PY{p}{[}\PY{l+m+mi}{176053}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{https://twitter.com/mc\PYZus{}admissions}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}
+              \PY{p}{]}\PY{p}{,} \PY{n}{columns} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{unitid}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tw\PYZus{}adm\PYZus{}link}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+          
+          \PY{n}{all\PYZus{}found\PYZus{}manually} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{p}{[}
+              \PY{p}{[}\PY{l+m+mi}{104717}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{https://twitter.com/gcu}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}
+              \PY{p}{[}\PY{l+m+mi}{232265}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{https://twitter.com/\PYZus{}hamptonu}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{https://twitter.com/applyhamptonu}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}
+              \PY{p}{[}\PY{l+m+mi}{100654}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{https://twitter.com/aamuedu}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}
+              \PY{p}{[}\PY{l+m+mi}{221838}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{https://twitter.com/TSUedu}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{https://twitter.com/tsuadmissions}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+              \PY{p}{]}\PY{p}{,} \PY{n}{columns} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{unitid}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tw\PYZus{}main\PYZus{}link}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tw\PYZus{}adm\PYZus{}link}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+          
+          \PY{n}{tw\PYZus{}found\PYZus{}manually}\PY{o}{.}\PY{n}{set\PYZus{}index}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{unitid}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{inplace}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+          \PY{n}{all\PYZus{}found\PYZus{}manually}\PY{o}{.}\PY{n}{set\PYZus{}index}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{unitid}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{inplace}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}229}]:} \PY{k}{for} \PY{n}{index}\PY{p}{,} \PY{n}{row} \PY{o+ow}{in} \PY{n}{tw\PYZus{}df}\PY{o}{.}\PY{n}{iterrows}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+                  
+              \PY{c+c1}{\PYZsh{} If index is in the manual twitter df, replace with the link from there}
+              \PY{k}{if} \PY{p}{(}\PY{n}{index} \PY{o+ow}{in} \PY{n}{tw\PYZus{}found\PYZus{}manually}\PY{o}{.}\PY{n}{index}\PY{p}{)}\PY{p}{:}
+                  \PY{n}{tw\PYZus{}df}\PY{o}{.}\PY{n}{at}\PY{p}{[}\PY{n}{index}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{admissions\PYZus{}link}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{tw\PYZus{}found\PYZus{}manually}\PY{o}{.}\PY{n}{at}\PY{p}{[}\PY{n}{index}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tw\PYZus{}adm\PYZus{}link}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+                  
+              \PY{c+c1}{\PYZsh{} If index is in the all manual df, replace with the links from there}
+              \PY{k}{if} \PY{p}{(}\PY{n}{index} \PY{o+ow}{in} \PY{n}{all\PYZus{}found\PYZus{}manually}\PY{o}{.}\PY{n}{index}\PY{p}{)}\PY{p}{:}
+                  \PY{n}{tw\PYZus{}df}\PY{o}{.}\PY{n}{at}\PY{p}{[}\PY{n}{index}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{main\PYZus{}link}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{all\PYZus{}found\PYZus{}manually}\PY{o}{.}\PY{n}{at}\PY{p}{[}\PY{n}{index}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tw\PYZus{}main\PYZus{}link}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+                  \PY{n}{tw\PYZus{}df}\PY{o}{.}\PY{n}{at}\PY{p}{[}\PY{n}{index}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{admissions\PYZus{}link}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{all\PYZus{}found\PYZus{}manually}\PY{o}{.}\PY{n}{at}\PY{p}{[}\PY{n}{index}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tw\PYZus{}adm\PYZus{}link}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\end{Verbatim}
+
+
+    \hypertarget{extract-twitter-names}{%
+\subsubsection{Extract Twitter names}\label{extract-twitter-names}}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}230}]:} \PY{n}{ex1} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{https://twitter.com/somehandle?somequery}\PY{l+s+s2}{\PYZdq{}}
+          \PY{n}{ex2} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{http://twitter.com/somehandle?somequery}\PY{l+s+s2}{\PYZdq{}}
+          \PY{n}{ex3} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdq{}}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}231}]:} \PY{k}{def} \PY{n+nf}{extract\PYZus{}handle}\PY{p}{(}\PY{n}{url}\PY{p}{)}\PY{p}{:}
+              \PY{n}{no\PYZus{}query} \PY{o}{=} \PY{n+nb}{str}\PY{p}{(}\PY{n}{url}\PY{p}{)}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{?}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+              \PY{k}{try}\PY{p}{:}
+                  \PY{n}{handle} \PY{o}{=} \PY{n}{re}\PY{o}{.}\PY{n}{search}\PY{p}{(}\PY{l+s+sa}{r}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{.*twitter.com/([\PYZca{}/?]+)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{no\PYZus{}query}\PY{p}{)}\PY{o}{.}\PY{n}{group}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{)}
+              \PY{k}{except}\PY{p}{:}
+                  \PY{n}{handle} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsq{}}
+              \PY{k}{return} \PY{n}{handle}
+              
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}232}]:} \PY{k}{if} \PY{l+m+mi}{1} \PY{o}{==} \PY{l+m+mi}{1}\PY{p}{:}
+              \PY{n+nb}{print}\PY{p}{(}\PY{n}{extract\PYZus{}handle}\PY{p}{(}\PY{n}{ex1}\PY{p}{)}\PY{p}{)}
+              \PY{n+nb}{print}\PY{p}{(}\PY{n}{extract\PYZus{}handle}\PY{p}{(}\PY{n}{ex2}\PY{p}{)}\PY{p}{)}
+              \PY{n+nb}{print}\PY{p}{(}\PY{n}{extract\PYZus{}handle}\PY{p}{(}\PY{n}{ex3}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+somehandle
+somehandle
+
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}233}]:} \PY{c+c1}{\PYZsh{} Extract main and admissions handles}
+          \PY{n}{tw\PYZus{}df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{main\PYZus{}handle}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{tw\PYZus{}df}\PY{o}{.}\PY{n}{main\PYZus{}link}\PY{o}{.}\PY{n}{apply}\PY{p}{(}\PY{n}{extract\PYZus{}handle}\PY{p}{)}
+          \PY{n}{tw\PYZus{}df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{adm\PYZus{}handle}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{tw\PYZus{}df}\PY{o}{.}\PY{n}{admissions\PYZus{}link}\PY{o}{.}\PY{n}{apply}\PY{p}{(}\PY{n}{extract\PYZus{}handle}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}234}]:} \PY{n}{tw\PYZus{}df}\PY{p}{[}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{instnm}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{main\PYZus{}handle}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{adm\PYZus{}handle}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}234}]:}                                                    instnm      main\_handle  \textbackslash{}
+          unitid                                                                       
+          154022                                 Ashford University         AshfordU   
+          132903                      University of Central Florida              ucf   
+          134130                              University of Florida               UF   
+          193900                                New York University     nyuniversity   
+          232557                                 Liberty University         libertyu   
+          228778                  The University of Texas at Austin         UTAustin   
+          204796                  Ohio State University-Main Campus        OhioState   
+          170976                   University of Michigan-Ann Arbor            umich   
+          174066                University of Minnesota-Twin Cities           UMNews   
+          104151                     Arizona State University-Tempe              asu   
+          123961                  University of Southern California              usc   
+          236948            University of Washington-Seattle Campus               UW   
+          228723             Texas A \& M University-College Station             tamu   
+          214777          Pennsylvania State University-Main Campus       penn\_state   
+          145637         University of Illinois at Urbana-Champaign    Illinois\_Alma   
+          134097                           Florida State University     floridastate   
+          110635                  University of California-Berkeley       UCBerkeley   
+          240444                    University of Wisconsin-Madison        uwmadison   
+          133951                   Florida International University              fiu   
+          110662               University of California-Los Angeles             ucla   
+          190150        Columbia University in the City of New York         columbia   
+          151351                     Indiana University-Bloomington    IUBloomington   
+          163286                University of Maryland-College Park      UofMaryland   
+          171100                          Michigan State University   michiganstateu   
+          137351            University of South Florida-Main Campus    USouthFlorida   
+          243780                      Purdue University-Main Campus     lifeatpurdue   
+          110644                     University of California-Davis          ucdavis   
+          139959                              University of Georgia   universityofga   
+          163204          University of Maryland-University College             umuc   
+          215293         University of Pittsburgh-Pittsburgh Campus        PittTweet   
+          104179                              University of Arizona             uofa   
+          186380                   Rutgers University-New Brunswick        rutgersnb   
+          228769               The University of Texas at Arlington      utarlington   
+          164988                                  Boston University        BU\_Tweets   
+          131469                       George Washington University         Gwtweets   
+          199120        University of North Carolina at Chapel Hill              unc   
+          110583             California State University-Long Beach            csulb   
+          215062                         University of Pennsylvania             Penn   
+          110608             California State University-Northridge    csunorthridge   
+          232186                            George Mason University     georgemasonu   
+          227216                          University of North Texas        untsystem   
+          201885               University of Cincinnati-Main Campus         UofCincy   
+          216339                                  Temple University       templeuniv   
+          225511                              University of Houston         UHouston   
+          199193         North Carolina State University at Raleigh          ncstate   
+          110680                 University of California-San Diego       ucsandiego   
+          153658                                 University of Iowa            uiowa   
+          433387                       Western Governors University              wgu   
+          110653                    University of California-Irvine         ucirvine   
+          204857                        Ohio University-Main Campus            ohiou   
+          126614                     University of Colorado Boulder        cuboulder   
+          167358                            Northeastern University     Northeastern   
+          178396                    University of Missouri-Columbia           mizzou   
+          230764                                 University of Utah            UUtah   
+          230038                     Brigham Young University-Provo              byu   
+          129020                          University of Connecticut            uconn   
+          122409                         San Diego State University             sdsu   
+          233921  Virginia Polytechnic Institute and State Unive{\ldots}    virginia\_tech   
+          196088                              University at Buffalo         UBuffalo   
+          122597                     San Francisco State University             SFSU   
+          166629                University of Massachusetts-Amherst     umassamherst   
+          122755                          San Jose State University             sjsu   
+          162928                           Johns Hopkins University     JohnsHopkins   
+          100751                          The University of Alabama       UofAlabama   
+          228459                             Texas State University             txst   
+          139940                           Georgia State University    georgiastateu   
+          234030                   Virginia Commonwealth University              VCU   
+          166027                                 Harvard University          harvard   
+          136215                       Nova Southeastern University       nsuflorida   
+          229115                              Texas Tech University        texastech   
+          234076                 University of Virginia-Main Campus              uva   
+          133669                        Florida Atlantic University  FloridaAtlantic   
+          209807                          Portland State University   portland\_state   
+          145600                  University of Illinois at Chicago        thisisuic   
+          126818             Colorado State University-Fort Collins   coloradostateu   
+          190415                                 Cornell University          Cornell   
+          153603                              Iowa State University       IowaStateU   
+          151111  Indiana University-Purdue University-Indianapolis            iupui   
+          144740                                  DePaul University          depaulu   
+          196097                             Stony Brook University      stonybrooku   
+          155317                               University of Kansas           KUnews   
+          179894                                 Webster University         websteru   
+          105330                        Northern Arizona University              nau   
+          236939                        Washington State University       wsupullman   
+          110705             University of California-Santa Barbara   ucsantabarbara   
+          110617             California State University-Sacramento         sacstate   
+          209551                               University of Oregon          uoregon   
+          203517                      Kent State University at Kent        kentstate   
+          212054                                  Drexel University       drexeluniv   
+          157085                             University of Kentucky   universityofky   
+          196413                                Syracuse University        SyracuseU   
+          169248                        Central Michigan University     CMUniversity   
+          207500               University of Oklahoma-Norman Campus      UofOklahoma   
+          198464                           East Carolina University     EastCarolina   
+          238032                           West Virginia University    WestVirginiaU   
+          131496                              Georgetown University       georgetown   
+          199139          University of North Carolina at Charlotte     UNCCharlotte   
+          100858                                  Auburn University          auburnu   
+          170082                      Grand Valley State University             gvsu   
+          240453                  University of Wisconsin-Milwaukee              uwm   
+          229027             The University of Texas at San Antonio             utsa   
+          151801                        Indiana Wesleyan University           IndWes   
+          164076                                  Towson University          TowsonU   
+          172699                        Western Michigan University     WesternMichU   
+          228787                  The University of Texas at Dallas        ut\_dallas   
+          172644                             Wayne State University       waynestate   
+          187985               University of New Mexico-Main Campus              UNM   
+          209542                            Oregon State University      oregonstate   
+          145813                          Illinois State University   IllinoisStateU   
+          139755        Georgia Institute of Technology-Main Campus      georgiatech   
+          147703                       Northern Illinois University          NIUlive   
+          190594                                CUNY Hunter College   hunter\_college   
+          232982                            Old Dominion University              odu   
+          230728                              Utah State University        USUAggies   
+          200800                    University of Akron Main Campus           uakron   
+          102368                                    Troy University        TROYUNews   
+          130943                             University of Delaware        UDelaware   
+          181464                     University of Nebraska-Lincoln        UNLincoln   
+          149222            Southern Illinois University-Carbondale             SIUC   
+          198419                                    Duke University            DukeU   
+          182281                     University of Nevada-Las Vegas             UNLV   
+          110671                 University of California-Riverside      UCRiverside   
+          220978                  Middle Tennessee State University         MTSUNews   
+          146719                          Loyola University Chicago    LoyolaChicago   
+          207388              Oklahoma State University-Main Campus          okstate   
+          150136                              Ball State University        ballstate   
+          217882                                 Clemson University      clemsonuniv   
+          243744                                Stanford University         stanford   
+          137032                               Saint Leo University     SaintLeoUniv   
+          106397                             University of Arkansas        uarkansas   
+          232423                           James Madison University              JMU   
+          190664                                CUNY Queens College          QC\_News   
+          155399                            Kansas State University           KState   
+          144050                              University of Chicago        thisisuic   
+          164924                                     Boston College    BostonCollege   
+          204024                            Miami University-Oxford  miamiuniversity   
+          119605                                National University          natuniv   
+          126562                      University of Colorado Denver         cudenver   
+          135726                                University of Miami        univmiami   
+          157289                           University of Louisville             uofl   
+          169798                        Eastern Michigan University     EasternMichU   
+          110592            California State University-Los Angeles       calstatela   
+          110714                University of California-Santa Cruz             ucsc   
+          196060                                     SUNY at Albany                    
+          141574                      University of Hawaii at Manoa          UHManoa   
+          230782                             Weber State University      WeberStateU   
+          190512                      CUNY Bernard M Baruch College    baruchcollege   
+          110529     California State Polytechnic University-Pomona    calpolypomona   
+          139658                                   Emory University  emoryuniversity   
+          110556                 California State University-Fresno     Fresno\_State   
+          230737                             Utah Valley University              UVU   
+          228796                 The University of Texas at El Paso        utepnews    
+          196592                                      Touro College       WeAreTouro   
+          179867                  Washington University in St Louis            wustl   
+          100663                University of Alabama at Birmingham        chooseuab   
+          185590                         Montclair State University  montclairstateu   
+          197869                       Appalachian State University         appstate   
+          221999                              Vanderbilt University      vanderbiltu   
+          220862                              University of Memphis       uofmemphis   
+          211440                         Carnegie Mellon University   carnegiemellon   
+          130794                                    Yale University             yale   
+          195809                      St John's University-New York         StJohnsU   
+          140164                          Kennesaw State University    kennesawstate   
+          179566              Missouri State University-Springfield    missouristate   
+          183044            University of New Hampshire-Main Campus            uofnh   
+          227881                       Sam Houston State University  samhoustonstate   
+          157951                        Western Kentucky University              wku   
+          176080                       Mississippi State University          msstate   
+          136172                        University of North Florida  UofNorthFlorida   
+          199148         University of North Carolina at Greensboro             UNCG   
+          196079                                 SUNY at Binghamton      binghamtonu   
+          131159                                American University        AmericanU   
+          152080                           University of Notre Dame        NotreDame   
+          110538                  California State University-Chico       chicostate   
+          127060                               University of Denver        uofdenver   
+          106458              Arkansas State University-Main Campus    ArkansasState   
+          110510         California State University-San Bernardino        csusbnews   
+          142115                             Boise State University   boisestatelive   
+          110574               California State University-East Bay  CalStateEastBay   
+          139931                        Georgia Southern University  georgiasouthern   
+          228246                      Southern Methodist University              smu   
+          171571                                 Oakland University         oaklandu   
+          217484                         University of Rhode Island   universityofri   
+          202134                         Cleveland State University        CLE\_State   
+          237011                      Western Washington University              WWU   
+          110422  California Polytechnic State University-San Lu{\ldots}          calpoly   
+          201441         Bowling Green State University-Main Campus             bgsu   
+          229179                           Texas Woman's University         txwomans   
+          195003                  Rochester Institute of Technology          RITNEWS   
+          190549                              CUNY Brooklyn College  BklynCollege411   
+          168148                                   Tufts University  TuftsUniversity   
+          169910                            Ferris State University      FerrisState   
+          216764            West Chester University of Pennsylvania          wcuofpa   
+          166638                 University of Massachusetts-Boston      umassboston   
+          206604                Wright State University-Main Campus      WrightState   
+          227368               The University of Texas-Pan American             utpa   
+          182290                          University of Nevada-Reno      unevadareno   
+          188030            New Mexico State University-Main Campus             nmsu   
+          127918                                   Regis University  RegisUniversity   
+          166683              Massachusetts Institute of Technology              mit   
+          216597                               Villanova University       VillanovaU   
+          166513                 University of Massachusetts-Lowell      umasslowell   
+          213020     Indiana University of Pennsylvania-Main Campus           iupedu   
+          156620                        Eastern Kentucky University              eku   
+          196264                          SUNY Empire State College       SUNYEmpire   
+          179159                             Saint Louis University     SLU\_Official   
+          231174                              University of Vermont       uvmvermont   
+          176372                 University of Southern Mississippi     southernmiss   
+          174783                       Saint Cloud State University     stcloudstate   
+          194310                           Pace University-New York   PaceUniversity   
+          155061                         Fort Hays State University    forthaysstate   
+          226091                                   Lamar University  LamarUniversity   
+          199218            University of North Carolina Wilmington    uncwilmington   
+          180489                          The University of Montana         umontana   
+          178402                 University of Missouri-Kansas City     umkansascity   
+          110547        California State University-Dominguez Hills   dominguezhills   
+          191649                                 Hofstra University         hofstrau   
+          224554                    Texas A \& M University-Commerce            tamuc   
+          131113                              Wilmington University         theWilmU   
+          173920                 Minnesota State University-Mankato      MNSUMankato   
+          195030                            University of Rochester             UofR   
+          154095                        University of Northern Iowa     northerniowa   
+          220075                    East Tennessee State University             etsu   
+          217235              Johnson \& Wales University-Providence    JWUProvidence   
+          234827                      Central Washington University     CentralWashU   
+          127565            Metropolitan State University of Denver        msudenver   
+          149231          Southern Illinois University-Edwardsville             siue   
+          163268            University of Maryland-Baltimore County             umbc   
+          142285                                University of Idaho           uidaho   
+          181394                    University of Nebraska at Omaha          unomaha   
+          190567                                  CUNY City College    citycollegeny   
+          180814                                Bellevue University        BellevueU   
+          149772                        Western Illinois University    WesternILUniv   
+          178420                    University of Missouri-St Louis             umsl   
+          193654                                     The New School     thenewschool   
+          156125                           Wichita State University     wichitastate   
+          186399                          Rutgers University-Newark   rutgers\_newark   
+          206941                     University of Central Oklahoma      UCOBronchos   
+          177968                              Lindenwood University      lindenwoodu   
+          122612                        University of San Francisco            usfca   
+          190600          CUNY John Jay College of Criminal Justice   JohnJayCollege   
+          240727                              University of Wyoming         uwyonews   
+          102094                        University of South Alabama  UofSouthAlabama   
+          157447                       Northern Kentucky University           nkuedu   
+          174914                            University of St Thomas    UofStThomasMN   
+          212106                                Duquesne University           duqedu   
+          184782                                   Rowan University  RowanUniversity   
+          160658               University of Louisiana at Lafayette      ULLafayette   
+          200332          North Dakota State University-Main Campus             ndsu   
+          201645                    Case Western Reserve University             cwru   
+          202480                               University of Dayton     univofdayton   
+          200280                         University of North Dakota   UofNorthDakota   
+          144892                        Eastern Illinois University              eiu   
+          127741                    University of Northern Colorado     UNC\_Colorado   
+          235097                      Eastern Washington University        ewueagles   
+          231624                        College of William and Mary   williamandmary   
+          109785                           Azusa Pacific University     azusapacific   
+          196130                                 Buffalo State SUNY     buffalostate   
+          138354                     The University of West Florida              UWF   
+          141264                          Valdosta State University    valdostastate   
+          117946                        Loyola Marymount University  loyolamarymount   
+          178721                                    Park University   parkuniversity   
+          122436                            University of San Diego      uofsandiego   
+          217156                                   Brown University  BrownUniversity   
+          176965                     University of Central Missouri       ucentralmo   
+          228431                  Stephen F Austin State University            SFASU   
+          237525                                Marshall University        marshallu   
+          217819                              College of Charleston             CofC   
+          165024                       Bridgewater State University     BridgeStateU   
+          240189                 University of Wisconsin-Whitewater     uwwhitewater   
+          121150                              Pepperdine University       pepperdine   
+          122931                             Santa Clara University   SantaClaraUniv   
+          168005                                 Suffolk University        Suffolk\_U   
+          186584                              Seton Hall University        setonhall   
+          106467                           Arkansas Tech University     arkansastech   
+          128771               Central Connecticut State University             CCSU   
+          140951                 Savannah College of Art and Design       SCADdotedu   
+          228875                         Texas Christian University              tcu   
+          145725                   Illinois Institute of Technology     illinoistech   
+          180461                           Montana State University     montanastate   
+          130493              Southern Connecticut State University             scsu   
+          219356                      South Dakota State University          sdstate   
+          215770                          Saint Joseph's University     saintjosephs   
+          190637                                CUNY Lehman College    LehmanCollege   
+          132471                                   Barry University  BarryUniversity   
+          174233                     University of Minnesota-Duluth        umnduluth   
+          188429                                 Adelphi University         AdelphiU   
+          211361              California University of Pennsylvania         CalUofPA   
+          108232                          Academy of Art University   academy\_of\_art   
+          102553                     University of Alaska Anchorage      uaanchorage   
+          160612                  Southeastern Louisiana University  oursoutheastern   
+          240268                 University of Wisconsin-Eau Claire      uweauclaire   
+          228705                  Texas A \& M University-Kingsville   JavelinaNation   
+          240365                    University of Wisconsin-Oshkosh        uwoshkosh   
+          225432                     University of Houston-Downtown       UHDowntown   
+          193016                                      Mercy College     mercycollege   
+          240329                  University of Wisconsin-La Crosse       uwlacrosse   
+          130226                              Quinnipiac University      quinnipiacu   
+          235316                                 Gonzaga University         GonzagaU   
+          196121                          SUNY College at Brockport        brockport   
+          106245              University of Arkansas at Little Rock             ualr   
+          142276                             Idaho State University      IdahoStateU   
+          236595                                 Seattle University         seattleu   
+          117140                             University of La Verne         ULaVerne   
+          140447                                  Mercer University        MercerYou   
+          200004                        Western Carolina University              wcu   
+          216038           Slippery Rock University of Pennsylvania          sruofpa   
+          229780                         Wayland Baptist University   waylandbaptist   
+          196176          State University of New York at New Paltz         newpaltz   
+          187444          William Paterson University of New Jersey        WPUNJ\_EDU   
+          199847                             Wake Forest University       WakeForest   
+          186867                    Stevens Institute of Technology    FollowStevens   
+          190558                      College of Staten Island CUNY          csinews   
+          163851                               Salisbury University       salisburyu   
+          181002                               Creighton University        creighton   
+          221847                 Tennessee Technological University    tennesseetech   
+          366711             California State University-San Marcos            csusm   
+          151324                           Indiana State University     indianastate   
+          144281                           Columbia College-Chicago      ColumbiaChi   
+          151306                     University of Southern Indiana           USIedu   
+          141334                         University of West Georgia       UnivWestGa   
+          147776                   Northeastern Illinois University             NEIU   
+          178411      Missouri University of Science and Technology    MissouriSandT   
+          165015                                Brandeis University        BrandeisU   
+          174020                      Metropolitan State University        msudenver   
+          221740            The University of Tennessee-Chattanooga    UTChattanooga   
+          161253                                University of Maine           UMaine   
+          219471                         University of South Dakota              usd   
+          206695                        Youngstown State University  youngstownstate   
+          185828                 New Jersey Institute of Technology             NJIT   
+          169479                               Davenport University       davenportu   
+          186131                               Princeton University        Princeton   
+          131520                                  Howard University          HowardU   
+          157401                            Murray State University  murraystateuniv   
+          159939                          University of New Orleans            UofNO   
+          240480              University of Wisconsin-Stevens Point   UWStevensPoint   
+          166452                                  Lesley University         lesley\_u   
+          186876         The Richard Stockton College of New Jersey     Stockton\_edu   
+          111948                                 Chapman University         chapmanu   
+          196194                             SUNY College at Oswego       sunyoswego   
+          167729                             Salem State University       salemstate   
+          182670                                  Dartmouth College        dartmouth   
+          194091                   New York Institute of Technology             nyit   
+          106704                     University of Central Arkansas         ucabears   
+          164739                                 Bentley University         bentleyu   
+          179557                Southeast Missouri State University  SEMissouriState   
+          151102    Indiana University-Purdue University-Fort Wayne      iufortwayne   
+          213349                Kutztown University of Pennsylvania        KutztownU   
+          161554                       University of Southern Maine   USouthernMaine   
+          219602                       Austin Peay State University       austinpeay   
+          213543                                  Lehigh University          LehighU   
+          123572                            Sonoma State University         ssu\_1961   
+          185572                                Monmouth University        monmouthu   
+          227757                                    Rice University   riceuniversity   
+          196149                           SUNY College at Cortland    suny\_cortland   
+          147536                          National Louis University   NationalLouisU   
+          110495             California State University-Stanislaus       stan\_state   
+          240417                      University of Wisconsin-Stout          UWStout   
+          152248                   Purdue University-Calumet Campus  PurdueNorthwest   
+          175272                            Winona State University     winonastateu   
+          187134                          The College of New Jersey             tcnj   
+          129941                            University of New Haven        unewhaven   
+          206622                                  Xavier University       XavierUniv   
+          191968                                     Ithaca College    IthacaCollege   
+          216010            Shippensburg University of Pennsylvania    shippensburgU   
+          120883                          University of the Pacific        UOPacific   
+          224147              Texas A \& M University-Corpus Christi     IslandCampus   
+          126580            University of Colorado Colorado Springs             uccs   
+          159647                          Louisiana Tech University           latech   
+          110486            California State University-Bakersfield   csubakersfield   
+          202806                                Franklin University        FranklinU   
+          196246                        SUNY College at Plattsburgh  sunyplattsburgh   
+          172051                    Saginaw Valley State University             SVSU   
+          171456                       Northern Michigan University    NorthernMichU   
+          207263                      Northeastern State University    NSURiverhawks   
+          160038         Northwestern State University of Louisiana            nsula   
+          213367                                La Salle University      lasalleuniv   
+          167987              University of Massachusetts-Dartmouth           umassd   
+          184603  Fairleigh Dickinson University-Metropolitan Ca{\ldots}      FDUWhatsNew   
+          148487                               Roosevelt University       RooseveltU   
+          225627                   University of the Incarnate Word     uiwcardinals   
+          199102              North Carolina A \& T State University     ncatsuaggies   
+          101480                      Jacksonville State University          JSUNews   
+          146612                                   Lewis University  LewisUniversity   
+          129525                             University of Hartford      UofHartford   
+          174817               Saint Mary's University of Minnesota            smumn   
+          131283                     Catholic University of America     CatholicUniv   
+          214041            Millersville University of Pennsylvania    millersvilleu   
+          230603                           Southern Utah University        suutbirds   
+          115755                          Humboldt State University    humboldtstate   
+          238616                     Concordia University-Wisconsin      CUWisconsin   
+          229814                        West Texas A \& M University            wtamu   
+          218724                        Coastal Carolina University  CCUchanticleers   
+          189705                                   Canisius College  canisiuscollege   
+          228802                   The University of Texas at Tyler          uttyler   
+          148335                  Robert Morris University Illinois    RobertMorrisU   
+          219709                                 Belmont University      BelmontUniv   
+          139861               Georgia College and State University   georgiacollege   
+          199157                  North Carolina Central University             NCCU   
+          100706                University of Alabama in Huntsville     uahuntsville   
+          212160                Edinboro University of Pennsylvania         edinboro   
+          169716                        University of Detroit Mercy       UDMDetroit   
+          153269                                   Drake University  DrakeUniversity   
+          185129                         New Jersey City University    njcuniversity   
+          163046                         Loyola University Maryland   loyolamaryland   
+          167783                                    Simmons College   simmonscollege   
+          159717                           McNeese State University          mcneese   
+          171128                  Michigan Technological University     MichiganTech   
+          137847                            The University of Tampa         UofTampa   
+          240277                  University of Wisconsin-Green Bay             uwgb   
+          221838                         Tennessee State University           TSUedu   
+          230995                                 Norwich University      norwichnews   
+          201104                                 Ashland University     Ashland\_Univ   
+          155681                         Pittsburg State University        pittstate   
+          198516                                    Elon University   elonuniversity   
+          168263                         Westfield State University   westfieldstate   
+          186371                          Rutgers University-Camden   Rutgers\_Camden   
+          217420                               Rhode Island College          RICNews   
+          196185                                       SUNY Oneonta     SUNY\_Oneonta   
+          216931                                  Wilkes University          wilkesU   
+          141644                          Hawaii Pacific University              hpu   
+          199999                     Winston-Salem State University         WSSURAMS   
+          178624                Northwest Missouri State University        nwmostate   
+          168421                    Worcester Polytechnic Institute              WPI   
+          171146                       University of Michigan-Flint          UMFlint   
+          139366                          Columbus State University    ColumbusState   
+          212115        East Stroudsburg University of Pennsylvania     esuniversity   
+          240471                University of Wisconsin-River Falls     UWRiverfalls   
+          195544                    Saint Joseph's College-New York            SJCNY   
+          143358                                 Bradley University         bradleyu   
+          196042                          Farmingdale State College    farmingdalesc   
+          240462                University of Wisconsin-Platteville    uwplatteville   
+          192819                                     Marist College           Marist   
+          174358                Minnesota State University-Moorhead      MSUMoorhead   
+          196167                            SUNY College at Geneseo      SUNYGeneseo   
+          133881                    Florida Institute of Technology      floridatech   
+          196158                                   SUNY at Fredonia        FredoniaU   
+          175856                           Jackson State University    jacksonstateU   
+          173665                                 Hamline University         HamlineU   
+          186201                       Ramapo College of New Jersey  ramapocollegenj   
+          193973                                 Niagara University      niagarauniv   
+          198561                            Gardner-Webb University      gardnerwebb   
+          229063                          Texas Southern University    TexasSouthern   
+          194541       Polytechnic Institute of New York University        nyutandon   
+          198136                                Campbell University      campbelledu   
+          227526                      Prairie View A \& M University            PVAMU   
+          156082                                Washburn University     washburnuniv   
+          224226                          Dallas Baptist University      dbupatriots   
+          181215                  University of Nebraska at Kearney        UNKearney   
+          210429                          Western Oregon University          wounews   
+          147828                         Olivet Nazarene University   olivetnazarene   
+          176053                                Mississippi College      misscollege   
+          161457                          University of New England        unetweets   
+          177214                                   Drury University  DruryUniversity   
+          128744                           University of Bridgeport      UBridgeport   
+          102049                                 Samford University         SamfordU   
+          233374                             University of Richmond        urichmond   
+          138789                Armstrong Atlantic State University  georgiasouthern   
+          178615                            Truman State University      TrumanState   
+          222831                            Angelo State University      AngeloState   
+          183080                          Plymouth State University    PlymouthState   
+          232681                      University of Mary Washington         marywash   
+          194578                               Pratt Institute-Main   prattinstitute   
+          129242                               Fairfield University       fairfieldu   
+          221768                 The University of Tennessee-Martin         utmartin   
+          143118                                  Aurora University          AuroraU   
+          102614                     University of Alaska Fairbanks      uafairbanks   
+          171492                      Northwood University-Michigan       northwoodu   
+          186283                                   Rider University  RiderUniversity   
+          101879                        University of North Alabama    north\_alabama   
+          218964                                Winthrop University        winthropu   
+          148654              University of Illinois at Springfield           UISedu   
+          165820                         Fitchburg State University  Fitchburg\_State   
+          226833                        Midwestern State University         msutexas   
+          168430                         Worcester State University   worcesterstate   
+          159966                          Nicholls State University    nichollsstate   
+          155025                           Emporia State University     emporiastate   
+          110097                                   Biola University           biolau   
+          235167                        The Evergreen State College   EvergreenStCol   
+          183062                                Keene State College    kscadmissions   
+          148627                            Saint Xavier University      SaintXavier   
+          107044                                 Harding University         HardingU   
+          110413                     California Lutheran University      callutheran   
+          129215               Eastern Connecticut State University  EasternCTStateU   
+          199281           University of North Carolina at Pembroke      uncpembroke   
+          112075                        Concordia University-Irvine  ConcordiaIrvine   
+          126775                           Colorado School of Mines  coschoolofmines   
+          173160                                  Bethel University          BethelU   
+          163453                            Morgan State University     MorganStateU   
+          210146                         Southern Oregon University       souashland   
+          209056                              Lewis \& Clark College    lewisandclark   
+          165866                        Framingham State University      FraminghamU   
+          162584                         Frostburg State University   frostburgstate   
+          134945                            Jacksonville University    JacksonvilleU   
+          139311                          Clayton  State University     ClaytonState   
+          191931                                       Iona College      ionacollege   
+          123554                 Saint Mary's College of California        stmarysca   
+          154688                                   Baker University  BakerUniversity   
+          231712                     Christopher Newport University      cnucaptains   
+          151263                         University of Indianapolis            uindy   
+          151379                       Indiana University-Southeast      IUSoutheast   
+          165662                                    Emerson College   EmersonCollege   
+          212133                                 Eastern University         easternU   
+          195720                          Saint John Fisher College       FisherNews   
+          160621              Southern University and A \& M College     SouthernU\_BR   
+          173045                                   Augsburg College        augsburgu   
+          189228                          Berkeley College-New York  berkeleycollege   
+          216852                     Widener University-Main Campus      wideneruniv   
+          219976                                Lipscomb University         lipscomb   
+          130776               Western Connecticut State University         westconn   
+          165334                                   Clark University  clarkuniversity   
+          228149                               St Mary's University         StMarysU   
+          172334                            Spring Arbor University     springarboru   
+          207458                           Oklahoma City University             okcu   
+          130697                                Wesleyan University       wesleyan\_u   
+          221971                                   Union University  UnionUniversity   
+          201195                         Baldwin Wallace University   BaldwinWallace   
+          218742               University of South Carolina-Upstate       USCUpstate   
+          213613                              Lock Haven University    LockHavenUniv   
+          197045                                      Utica College     uticacollege   
+          198543                      Fayetteville State University           uncfsu   
+          211088                                 Arcadia University      arcadia1853   
+          152600                              Valparaiso University           valpou   
+          236577                         Seattle Pacific University   seattlepacific   
+          154235                           Saint Ambrose University        stambrose   
+          211291                                Bucknell University        BucknellU   
+          197151                              School of Visual Arts         sva\_news   
+          222178                       Abilene Christian University           acuedu   
+          217518                          Roger Williams University            myrwu   
+          234155                          Virginia State University       VSUTrojans   
+          214713  Pennsylvania State University-Penn State Harri{\ldots}    PSUHarrisburg   
+          209825                             University of Portland        UPortland   
+          178341                 Missouri Southern State University        mosolions   
+          150163                                  Butler University          butleru   
+          214591  Pennsylvania State University-Penn State Erie-{\ldots}        psbehrend   
+          130183                                    Post University   Postuniversity   
+          232706                               Marymount University       marymountu   
+          164580                                     Babson College           babson   
+          137546                                 Stetson University         stetsonu   
+          211352                                    Cabrini College     CabriniUniv    
+          167835                                      Smith College     smithcollege   
+          151342                      Indiana University-South Bend      IUSouthBend   
+          193292                                     Molloy College    MolloyCollege   
+          153001                             Buena Vista University   buenavistauniv   
+          141097              Southern Polytechnic State University    kennesawstate   
+          240107                                 Viterbo University     viterbo\_univ   
+          208822                              George Fox University        georgefox   
+          133553  Embry-Riddle Aeronautical University-Daytona B{\ldots}     ERAU\_Daytona   
+          190770                                    Dowling College         hofstrau   
+          164748                           Berklee College of Music   BerkleeCollege   
+          180179                  Montana State University-Billings      msubillings   
+          162007                             Bowie State University       bowiestate   
+          149781                                    Wheaton College   WheatonCollege   
+          173328                    Concordia University-Saint Paul  concordiastpaul   
+          128106                   Colorado State University-Pueblo        csupueblo   
+          212601                                  Gannon University          gannonu   
+          230807                                Westminster College   westminsterslc   
+          202763                          The University of Findlay         ufindlay   
+          207865             Southwestern Oklahoma State University            swosu   
+          193584                                   Nazareth College  nazarethcollege   
+          178059                Maryville University of Saint Louis       maryvilleu   
+          198695                              High Point University       HighPointU   
+          156286                              Bellarmine University      bellarmineu   
+          151290                    Indiana Institute of Technology      indianatech   
+          172264                           Siena Heights University     sienaheights   
+          209612                                 Pacific University         pacificu   
+          144962                                   Elmhurst College  elmhurstcollege   
+          199069                                Mount Olive College      OfficialUMO   
+          215099                            Philadelphia University             Penn   
+          174844                                    St Olaf College           stolaf   
+          169080                                     Calvin College    calvincollege   
+          217165                                  Bryant University       BryantUniv   
+          168254                     Western New England University    wneuniversity   
+          196219                           SUNY at Purchase College    SUNY\_Purchase   
+          148584                           University of St Francis     UofStFrancis   
+          192323                                   Le Moyne College          lemoyne   
+          204501                                    Oberlin College   oberlincollege   
+          201548                                 Capital University        Capital\_U   
+          213011                              Immaculata University      immaculatau   
+          220613                                     Lee University             leeu   
+          224004                         Concordia University-Texas      concordiatx   
+          155089                                 Friends University         friendsu   
+          236230                        Pacific Lutheran University          PLUNEWS   
+          170675                  Lawrence Technological University    LawrenceTechU   
+          215442                              Point Park University       pointparku   
+          200217                                 University of Mary            umary   
+          168227                  Wentworth Institute of Technology    wentworthinst   
+          190044                                Clarkson University     ClarksonUniv   
+          136950                                    Rollins College   rollinscollege   
+          179964                           William Woods University    WilliamWoodsU   
+          192925                                   Medaille College  MedailleCollege   
+          210401                              Willamette University     willamette\_u   
+          195474                                      Siena College     SienaCollege   
+          200253                             Minot State University      Minotstateu   
+          206914                                 Cameron University         CUAggies   
+          147660                              North Central College  northcentralcol   
+          121309                     Point Loma Nazarene University             plnu   
+          192703                                  Manhattan College     ManhattanEdu   
+          178387                  Missouri Western State University  missouriwestern   
+          213826                                Marywood University     marywooduadm   
+          236328                          University of Puget Sound   univpugetsound   
+          164173                               Stevenson University       stevensonu   
+          143048             School of the Art Institute of Chicago        saic\_news   
+          187648          Eastern New Mexico University-Main Campus             enmu   
+          237367                          Fairmont State University    fairmontstate   
+          212984                             Holy Family University      holyfamilyu   
+          221892                       Trevecca Nazarene University         Trevecca   
+          218238                                  Limestone College   at\_LimestoneCo   
+          166124                          College of the Holy Cross       holy\_cross   
+          220516                                    King University  KingUnivBristol   
+          190099                                 Colgate University      colgateuniv   
+          229267                                 Trinity University        Trinity\_U   
+          100830                    Auburn University at Montgomery     aumontgomery   
+          100724                           Alabama State University  ASUHornetNation   
+          176035                   Mississippi University for Women           muwedu   
+          210739                                 DeSales University          desales   
+          215743                           Saint Francis University   SaintFrancisPA   
+          179326                       Southwest Baptist University           SBUniv   
+          212832                           Gwynedd Mercy University          GMercyU   
+          119173                            Mount St Mary's College          msmu\_la   
+          175616                             Delta State University       deltastate   
+          211583                              Chestnut Hill College     chestnuthill   
+          179043                               Rockhurst University       RockhurstU   
+          107071                         Henderson State University  hendersonstateu   
+          163578                  Notre Dame of Maryland University    NotreDameofMD   
+          168740                                 Andrews University      andrewsuniv   
+          168342                                   Williams College  williamscollege   
+          170301                                       Hope College      HopeCollege   
+          199111          University of North Carolina at Asheville           UncAvl   
+          101189                                Faulkner University      FaulknerEdu   
+          190716                                 D'Youville College        DYouville   
+          237792                                Shepherd University        ShepherdU   
+          167996                                  Stonehill College   stonehill\_info   
+          218070                                  Furman University          FurmanU   
+          206862                       Southern Nazarene University        FollowSNU   
+          168218                                  Wellesley College        wellesley   
+          175421                                Belhaven University        belhavenu   
+          186432                           Saint Peter's University  saintpetersuniv   
+          238980                                   Lakeland College       LakelandWI   
+          240374                   University of Wisconsin-Parkside       uwparkside   
+          183974                                  Centenary College     Centenary\_NJ   
+          214175                                 Muhlenberg College       muhlenberg   
+          126669                      Colorado Christian University           my\_ccu   
+          166939                              Mount Holyoke College        mtholyoke   
+          212674                                 Gettysburg College       gettysburg   
+          237066                               Whitworth University        whitworth   
+          139199                                  Brenau University          BrenauU   
+          217536                            Salve Regina University      SalveRegina   
+          147679                              North Park University              npu   
+          238458                                 Carroll University         carrollu   
+          150534                           University of Evansville      UEvansville   
+          203775                                  Malone University          MaloneU   
+          173300                      Concordia College at Moorhead     concordia\_mn   
+          195526                                   Skidmore College  SkidmoreCollege   
+          204194                   Mount Vernon Nazarene University         MVNUNews   
+          226231                              LeTourneau University   letourneauuniv   
+          150400                                  DePauw University          DePauwU   
+          214272                                 Neumann University      NeumannUniv   
+          218733                    South Carolina State University      SCSTATE1896   
+          238476                                   Carthage College  carthagecollege   
+          164562                                 Assumption College   AssumptionNews   
+          213385                                  Lafayette College           LafCol   
+          194161                                      Nyack College     NyackCollege   
+          138947                           Clark Atlanta University              cau   
+          207582                            Oral Roberts University     OralRobertsU   
+          213987                              Mercyhurst University      mercyhurstu   
+          175078               Southwest Minnesota State University        smsutoday   
+          150066                                Anderson University        AndersonU   
+          166850                                  Merrimack College        merrimack   
+          174491                 University of Northwestern-St Paul   NorthwesternMN   
+          213996                                    Messiah College   messiahcollege   
+          227331                    Our Lady of the Lake University      ollunivsatx   
+          218061                          Francis Marion University   FrancisMarionU   
+          143084                                  Augustana College     Augustana\_IL   
+          161217                     University of Maine at Augusta        umaugusta   
+          173902                                 Macalester College       macalester   
+          193353                           Mount Saint Mary College             msmu   
+          195216                             St Lawrence University      stlawrenceu   
+          202523                                 Denison University         denisonu   
+          209506                     Oregon Institute of Technology       OregonTech   
+          184694  Fairleigh Dickinson University-College at Florham      FDUWhatsNew   
+          155520                     MidAmerica Nazarene University        followMNU   
+          184773                          Georgian Court University    Georgiancourt   
+          212577                      Franklin and Marshall College     FandMCollege   
+          217493                      Rhode Island School of Design             risd   
+          130934                          Delaware State University     DelStateUniv   
+          189097                                    Barnard College   BarnardCollege   
+          204936                               Otterbein University        otterbein   
+          210775                                Alvernia University     AlverniaUniv   
+          239080                                  Marian University        marian\_wi   
+          127185                                 Fort Lewis College       FLCDurango   
+          204617                          Ohio Dominican University    OhioDominican   
+          198613                                   Guilford College  GuilfordCollege   
+          161086                                      Colby College     colbycollege   
+          201654                              Cedarville University       cedarville   
+          151786                                  Marian University       marianuniv   
+          130590                                    Trinity College   trinitycollege   
+          232609                                  Lynchburg College        lynchburg   
+          177418                               Fontbonne University       FontbonneU   
+          192192                                      Keuka College     keukacollege   
+          226471                   University of Mary Hardin-Baylor             umhb   
+          211431                                  Carlow University          CarlowU   
+          196112         SUNY Institute of Technology at Utica-Rome     SUNYPolyInst   
+          198950                                   Meredith College  meredithcollege   
+          212009                                  Dickinson College     DickinsonCol   
+          173647                          Gustavus Adolphus College         gustavus   
+          170639                     Lake Superior State University       lifeatlssu   
+          194958                           Roberts Wesleyan College  RobertsWesleyan   
+          217688                     Charleston Southern University           csuniv   
+          107141                              John Brown University    johnbrownuniv   
+          150145                             Bethel College-Indiana  BethelCollegeIN   
+          120254                                 Occidental College       occidental   
+          197197                                     Wagner College    wagnercollege   
+          182795                         Franklin Pierce University     FPUniversity   
+          191630                      Hobart William Smith Colleges      hwscolleges   
+          204200                         College of Mount St Joseph   MountStJosephU   
+          154350                                    Simpson College   simpsoncollege   
+          163295                  Maryland Institute College of Art             mica   
+          133492                                     Eckerd College    eckerdcollege   
+          239318                    Milwaukee School of Engineering             MSOE   
+          110404                 California Institute of Technology          caltech   
+          134079                           Florida Southern College       flsouthern   
+          128498                            Albertus Magnus College   AlbertusSocial   
+          221953                                   Tusculum College    tusculum\_univ   
+          126678                                   Colorado College  coloradocollege   
+          191515                                   Hamilton College  hamiltoncollege   
+          137564                            Southeastern University     seuniversity   
+          212656                                     Geneva College    GenevaCollege   
+          177339                                 Evangel University      evangeluniv   
+          225399                         Houston Baptist University  HoustonBaptistU   
+          215105                         The University of the Arts            uarts   
+          190761                      Dominican College of Blauvelt   DominicanOburg   
+          154013                             Mount Mercy University       MountMercy   
+          207324                      Oklahoma Christian University      okchristian   
+          216278                             Susquehanna University     susquehannau   
+          153375                              Grand View University    grandviewuniv   
+          181446                       Nebraska Wesleyan University       NEWesleyan   
+          238193                                    Alverno College   alvernocollege   
+          184348                                    Drew University   drewuniversity   
+          145646                       Illinois Wesleyan University      IL\_Wesleyan   
+          128902                                Connecticut College      ConnCollege   
+          173258                                   Carleton College  CarletonCollege   
+          101709                           University of Montevallo       Montevallo   
+          147244                                Millikin University        MillikinU   
+          204185                          University of Mount Union       mountunion   
+          210571                                   Albright College  albrightcollege   
+          139144                                      Berry College     berrycollege   
+          210669                                  Allegheny College     alleghenycol   
+          152530                                  Taylor University          tayloru   
+          219000                                  Augustana College      augustanasd   
+          152318                Rose-Hulman Institute of Technology       rosehulman   
+          237932                            West Liberty University     westlibertyu   
+          204909                           Ohio Wesleyan University     OhioWesleyan   
+          225247                          Hardin-Simmons University            HSUTX   
+          140553                                  Morehouse College        Morehouse   
+          211468                                Cedar Crest College  cedarcrestcolle   
+          110370                     California College of the Arts  CACollegeofArts   
+          212197                              Elizabethtown College     etowncollege   
+          216524                                    Ursinus College   UrsinusCollege   
+          198385                                   Davidson College  DavidsonCollege   
+          218229                                  Lander University    follow\_lander   
+          214157                                   Moravian College  MoravianCollege   
+          162283                            Coppin State University  coppinstateuniv   
+          215284                 University of Pittsburgh-Johnstown    PittJohnstown   
+          237330                                 Concord University  CampusBeautiful   
+          211981                            Delaware Valley College           DelVal   
+          203535                                     Kenyon College    KenyonCollege   
+          140960                          Savannah State University    savannahstate   
+          174792                             Saint Johns University           CSBSJU   
+          206589                             The College of Wooster       woosteredu   
+          218973                                    Wofford College   woffordcollege   
+          154527                                   Wartburg College  WartburgCollege   
+          166674            Massachusetts College of Art and Design          MassArt   
+          219806                           Carson-Newman University         cneagles   
+          120184                     Notre Dame de Namur University             NDNU   
+          183239                               Saint Anselm College      saintanselm   
+          167288              Massachusetts College of Liberal Arts         MCLA\_EDU   
+          106412               University of Arkansas at Pine Bluff         uapbinfo   
+          146481                                Lake Forest College        lfcollege   
+          152390                               Saint Mary's College       saintmarys   
+          196291                              SUNY Maritime College  MaritimeCollege   
+          237899                     West Virginia State University         WVStateU   
+          206525                              Wittenberg University       wittenberg   
+          192864                        Marymount Manhattan College     NYCMarymount   
+          203845                                   Marietta College  MariettaCollege   
+          216667                     Washington \& Jefferson College        wjcollege   
+          237057                                    Whitman College   whitmancollege   
+          221351                                     Rhodes College    RhodesCollege   
+          109651                       Art Center College of Design     artcenteredu   
+          199209                    North Carolina Wesleyan College       ncwesleyan   
+          228343                            Southwestern University    southwesternu   
+          125727                                   Westmont College     westmontnews   
+          120865                              Pacific Union College           pucnow   
+          209922                                       Reed College    Reed\_College\_   
+          197984                              Belmont Abbey College     BelmontAbbey   
+          100937                        Birmingham Southern College   FromTheHilltop   
+          101435                                 Huntingdon College   HuntingdonColl   
+          115409                                Harvey Mudd College       harveymudd   
+          154493                              Upper Iowa University        upperiowa   
+          157386                          Morehead State University    moreheadstate   
+          211644                 Clarion University of Pennsylvania         clarionu   
+          219718                                  Bethel University          BethelU   
+          232566                                Longwood University        longwoodu   
+          204635                           Ohio Northern University     ohionorthern   
+          181783                                Wayne State College   waynestcollege   
+          234207                      Washington and Lee University           wlulex   
+          213783               Mansfield University of Pennsylvania       mansfieldU   
+          153834                                     Luther College    luthercollege   
+          216694                              Waynesburg University      WaynesburgU   
+          188641                                  Alfred University          alfredu   
+          128391                  Western State Colorado University     westerncolou   
+          102377                                Tuskegee University     TuskegeeUniv   
+          161226                  University of Maine at Farmington     UMFinthenews   
+          191676                                   Houghton College  HoughtonCollege   
+          153384                                   Grinnell College  grinnellcollege   
+          153108                                    Central College   centralcollege   
+          110565              California State University-Fullerton             csuf   
+          218663              University of South Carolina-Columbia            uofsc   
+          221759              The University of Tennessee-Knoxville      utknoxville   
+          450933                       Columbia Southern University           csuedu   
+          191241                                 Fordham University       fordhamnyc   
+          206084                               University of Toledo          utoledo   
+          223232                                  Baylor University           baylor   
+          239105                               Marquette University       marquetteu   
+          183026                  Southern New Hampshire University             snhu   
+          228529                          Tarleton State University    tarletonstate   
+          133650     Florida Agricultural and Mechanical University        famu\_1887   
+          233277                                 Radford University         radfordu   
+          211158              Bloomsburg University of Pennsylvania      bloomsburgu   
+          145619                             Benedictine University         benu1887   
+          192439                                       LIU Brooklyn      liubrooklyn   
+          194824                   Rensselaer Polytechnic Institute              rpi   
+          215929                             University of Scranton   univofscranton   
+          130253                            Sacred Heart University  sacredheartuniv   
+          170806                                 Madonna University         madonnau   
+          159993                  University of Louisiana at Monroe     ulm\_official   
+          238430                        Cardinal Stritch University         stritchu   
+          215655                           Robert Morris University              rmu   
+          173124                           Bemidji State University     bemidjistate   
+          207971                                University of Tulsa           utulsa   
+          196200                            SUNY College at Potsdam  sunypotsdam1816   
+          144005                           Chicago State University     chicagostate   
+          159009                         Grambling State University    grambling1901   
+          193645                        The College of New Rochelle          cnr1904   
+          203368                            John Carroll University     johncarrollu   
+          147013                               McKendree University       mckendreeu   
+          217749                               Bob Jones University           bjuedu   
+          217864         Citadel Military College of South Carolina      citadel1842   
+          207847             Southeastern Oklahoma State University           se1909   
+          214069                            Misericordia University    misericordiau   
+          160904                     Xavier University of Louisiana         xula1925   
+          121345                                     Pomona College    pomonacollege   
+          146427                                       Knox College  knoxcollege1837   
+          
+                       adm\_handle  
+          unitid                   
+          154022                   
+          132903    ucfadmissions  
+          134130     UFAdmissions  
+          193900          meetnyu  
+          232557     ExperienceLU  
+          228778      bealonghorn  
+          204796        beavervip  
+          170976  UMichAdmissions  
+          174066   uofmadmissions  
+          104151  FutureSunDevils  
+          123961     USCAdmission  
+          236948      seattleuadm  
+          228723       aggiebound  
+          214777   PSU\_Admissions  
+          145637          hashtag  
+          134097    fsuadmissions  
+          110635    CalAdmissions  
+          240444     UWAdmissions  
+          133951                   
+          110662    uclaadmission  
+          190150     hamiltonhall  
+          151351     IUAdmissions  
+          163286    ApplyMaryland  
+          171100   msu\_admissions  
+          137351    AdmissionsUSF  
+          243780  PurdueAdmission  
+          110644   ucd\_admissions  
+          139959    ugaadmissions  
+          163204    applymaryland  
+          215293   pittadmissions  
+          104179     uaadmissions  
+          186380    apply2rutgers  
+          228769      utarlington  
+          164988        applytobu  
+          131469     gwadmissions  
+          199120    UNCAdmissions  
+          110583    csulboutreach  
+          215062   previewingpenn  
+          110608                   
+          232186  MasonAdmissions  
+          227216    UNTadmissions  
+          201885     ucadmissions  
+          216339     admissionsTU  
+          225511     UHadmissions  
+          199193          ncstate  
+          110680   ucsdadmissions  
+          153658   IowaAdmissions  
+          433387                   
+          110653     uciadmission  
+          204857  ohiouadmissions  
+          126614      futurebuffs  
+          167358     nuadmissions  
+          178396  MizzouAdmission  
+          230764   utahadmissions  
+          230038    byuadmissions  
+          129020  uconnadmissions  
+          122409   sdsuadmissions  
+          233921     followmetovt  
+          196088     UBAdmissions  
+          122597                   
+          166629  UMassAdmissions  
+          122755   fireweatherlab  
+          162928   jhu\_admissions  
+          100751    ua\_admissions  
+          228459   txstadmissions  
+          139940                   
+          234030    vcuadmissions  
+          166027   applytoharvard  
+          136215           nsuuga  
+          229115  TxTechAdmission  
+          234076     uvaadmission  
+          133669   FAUAdmissions   
+          209807           go2psu  
+          145600        apply2uic  
+          126818    admissionscsu  
+          190415       cornelluao  
+          153603       BeACyclone  
+          151111     IUPUI\_Admits  
+          144740  DePaulAdmission  
+          196097                   
+          155317       BeAJayhawk  
+          179894                   
+          105330                   
+          236939    wsuadmissions  
+          110705   ucsbadmissions  
+          110617                   
+          209551     UOAdmissions  
+          203517                   
+          212054  DrexelAdmission  
+          157085     ukyadmission  
+          196413      GoSyracuseU  
+          169248    cmuadmissions  
+          207500            go2ou  
+          198464    ECUAdmissions  
+          238032    WVUAdmissions  
+          131496  ugrdadmissiongu  
+          199139   unccadmissions  
+          100858  auburnadmission  
+          170082                   
+          240453         uwmadmit  
+          229027                   
+          151801                   
+          164076   AdmissionsatTU  
+          172699    wmuadmissions  
+          228787                   
+          172644                   
+          187985                   
+          209542        beavervip  
+          145813    ISUAdmissions  
+          139755      gtadmission  
+          147703   niu\_admissions  
+          190594                   
+          232982                   
+          230728                   
+          200800  akronadmissions  
+          102368  troyuadmissions  
+          130943     UDAdmissions  
+          181464    unladmissions  
+          149222   SIUCAdmissions  
+          198419  duke\_admissions  
+          182281   unlvadmissions  
+          110671    ucradmissions  
+          220978     MTAdmissions  
+          146719     lucadmission  
+          207388                   
+          150136                   
+          217882  beaclemsontiger  
+          243744   engagestanford  
+          137032                   
+          106397   uofaadmissions  
+          232423                   
+          190664                   
+          155399  KStateAdmission  
+          144050        apply2uic  
+          164924     bc\_admission  
+          204024                   
+          119605     cuaadmission  
+          126562                   
+          135726      umadmission  
+          157289          UofLadm  
+          169798                   
+          110592                   
+          110714   ucsc\_admission  
+          196060                   
+          141574  manoaadmissions  
+          230782                   
+          190512                   
+          110529   cpp\_admissions  
+          139658                   
+          110556                   
+          230737                   
+          228796                   
+          196592                   
+          179867  WashUAdmissions  
+          100663                   
+          185590                   
+          197869                   
+          221999                   
+          220862         membound  
+          211440     CM\_Admission  
+          130794                   
+          195809                   
+          140164                   
+          179566                   
+          183044                   
+          227881                   
+          157951    wkuadmissions  
+          176080     MSStateAdmit  
+          136172    unfadmissions  
+          199148                   
+          196079                   
+          131159                   
+          152080                   
+          110538  ChicoAdmissions  
+          127060                   
+          106458                   
+          110510                   
+          142115                   
+          110574                   
+          139931    GS\_Admissions  
+          228246                   
+          171571     OUAdmissions  
+          217484                   
+          202134                   
+          237011                   
+          110422                   
+          201441   BGSUAdmissions  
+          229179                   
+          195003    RITAdmissions  
+          190549                   
+          168148  tuftsadmissions  
+          169910  FerrisAdmission  
+          216764                   
+          166638                   
+          206604                   
+          227368                   
+          182290                   
+          188030                   
+          127918                   
+          166683                   
+          216597      VUAdmission  
+          166513                   
+          213020                   
+          156620    EKUAdmissions  
+          196264                   
+          179159                   
+          231174                   
+          176372                   
+          174783                   
+          194310                   
+          155061                   
+          226091                   
+          199218  UNCW\_Admissions  
+          180489                   
+          178402                   
+          110547                   
+          191649                   
+          224554                   
+          131113                   
+          173920                   
+          195030     URAdmissions  
+          154095                   
+          220075   etsuadmissions  
+          217235                   
+          234827                   
+          127565                   
+          149231                   
+          163268                   
+          142285                   
+          181394                   
+          190567                   
+          180814                   
+          149772    WIUAdmissions  
+          178420                   
+          193654                   
+          156125                   
+          186399                   
+          206941                   
+          177968                   
+          122612  usfca\_admission  
+          190600                   
+          240727                   
+          102094                   
+          157447                   
+          174914                   
+          212106                   
+          184782                   
+          160658  raginrecruiters  
+          200332    ndsuadmission  
+          201645    cwruadmission  
+          202480  DaytonAdmission  
+          200280     ndadmissions  
+          144892   eiu\_admissions  
+          127741                   
+          235097                   
+          231624     WM\_Admission  
+          109785                   
+          196130                   
+          138354    uwfadmissions  
+          141264                   
+          117946                   
+          178721                   
+          122436    usdadmissions  
+          217156  brownuadmission  
+          176965                   
+          228431                   
+          237525   marshalluapply  
+          217819   cofcadmissions  
+          165024                   
+          240189    uwwadmissions  
+          121150  seaveradmission  
+          122931     scuadmission  
+          168005   ApplyToSuffolk  
+          186584                   
+          106467           go2ATu  
+          128771                   
+          140951                   
+          228875     tcuadmission  
+          145725   iitugadmission  
+          180461    AdmissionsMSU  
+          130493                   
+          219356                   
+          215770    sjuadmissions  
+          190637                   
+          132471                   
+          174233    UMDuluthAdmis  
+          188429                   
+          211361  calu\_admissions  
+          108232                   
+          102553                   
+          160612                   
+          240268     uwadmissions  
+          228705      beajavelina  
+          240365    uwoadmissions  
+          225432    uhdadmissions  
+          193016                   
+          240329    uwladmissions  
+          130226                   
+          235316    zagadmissions  
+          196121  bportadmissions  
+          106245   ualradmissions  
+          142276                   
+          236595      seattleuadm  
+          117140                   
+          140447        mercernow  
+          200004     WCUadmission  
+          216038                   
+          229780                   
+          196176                   
+          187444  wpunj\_admission  
+          199847    WFUadmissions  
+          186867    followstevens  
+          190558                   
+          163851        flocktosu  
+          181002  ChooseCreighton  
+          221847     followme2ttu  
+          366711                   
+          151324      choosestate  
+          144281       columadmit  
+          151306                   
+          141334    uwgadmissions  
+          147776                   
+          178411  SandTadmissions  
+          165015                   
+          174020     choose\_metro  
+          221740                   
+          161253         GoUMaine  
+          219471   usd\_admissions  
+          206695    ysuadmissions  
+          185828                   
+          169479                   
+          186131   applyprinceton  
+          131520  HowardAdmission  
+          157401  raceradmissions  
+          159939   uno\_admissions  
+          240480                   
+          166452                   
+          186876                   
+          111948     chapmanadmit  
+          196194  oswegoadmission  
+          167729                   
+          182670                   
+          194091   nyitadmissions  
+          106704    ucaadmissions  
+          164739       UGABentley  
+          179557                   
+          151102                   
+          213349    admissions\_ku  
+          161554    usmadmissions  
+          219602  apsu\_admissions  
+          213543  lehighadmission  
+          123572                   
+          185572                   
+          227757                   
+          196149     cortlandsuny  
+          147536                   
+          110495   stanadmissions  
+          240417  stoutadmissions  
+          152248  purdueadmission  
+          175272                   
+          187134  TCNJ\_Admissions  
+          129941                   
+          206622   xulaadmissions  
+          191968                   
+          216010                   
+          120883     uopadmission  
+          224147   futureislander  
+          126580                   
+          159647   techadmissions  
+          110486                   
+          202806                   
+          196246       plattslife  
+          172051                   
+          171456                   
+          207263                   
+          160038                   
+          213367   lasalle\_admiss  
+          167987                   
+          184603    fduadmissions  
+          148487                   
+          225627   uiw\_admissions  
+          199102   ncatadmissions  
+          101480    jsuadmissions  
+          146612                   
+          129525                   
+          174817    smc\_admission  
+          131283     cuaadmission  
+          214041  villeadmissions  
+          230603                   
+          115755                   
+          238616                   
+          229814                   
+          218724   ccu\_admissions  
+          189705                   
+          228802         applyutt  
+          148335                   
+          219709                   
+          139861     GCAdmissions  
+          199157   NCCUadmissions  
+          100706    uahadmissions  
+          212160   boroadmissions  
+          169716                   
+          153269   drakeadmission  
+          185129   njcuadmissions  
+          163046   loyoladmission  
+          167783     applysimmons  
+          159717    becomeacowboy  
+          171128                   
+          137847                   
+          240277       admissions  
+          221838    tsuadmissions  
+          230995                   
+          201104                   
+          155681     psuadmission  
+          198516   ElonAdmissions  
+          168263                   
+          186371    rucamdenapply  
+          217420  pc\_perspectives  
+          196185                   
+          216931       wilkesuadm  
+          141644          gotohpu  
+          199999                   
+          178624                   
+          168421    WPIAdmissions  
+          171146                   
+          139366                   
+          212115                   
+          240471                   
+          195544                   
+          143358    Apply2Bradley  
+          196042                   
+          240462                   
+          192819                   
+          174358   admissionsmsum  
+          196167        geneseoua  
+          133881                   
+          196158                   
+          175856                   
+          173665     Admission\_HU  
+          186201   rcnjadmissions  
+          193973          nuadmit  
+          198561      futuredawgs  
+          229063  txsu\_admissions  
+          194541                   
+          198136     cuadmissions  
+          227526     thejaguarway  
+          156082                   
+          224226    dbuadmissions  
+          181215                   
+          210429    wouadmissions  
+          147828                   
+          176053    mc\_admissions  
+          161457    UNEadmissions  
+          177214   druryadmission  
+          128744                   
+          102049    choosesamford  
+          233374      uradmission  
+          138789    appadmissions  
+          178615  trumanadmission  
+          222831    goangelostate  
+          183080                   
+          232681                   
+          194578  prattadmissions  
+          129242  fairfield\_admis  
+          221768    ut\_admissions  
+          143118                   
+          102614                   
+          171492                   
+          186283  rideruadmission  
+          101879   UNA\_Admissions  
+          218964                   
+          148654    uisadmissions  
+          165820                   
+          226833   msu\_admissions  
+          168430                   
+          159966    nsuadmissions  
+          155025    ESUadmissions  
+          110097                   
+          235167                   
+          183062    KSCAdmissions  
+          148627     sxuadmission  
+          107044                   
+          110413                   
+          129215       WhyEastern  
+          199281   uncpadmissions  
+          112075                   
+          126775  MinesAdmissions  
+          173160                   
+          163453  morganadmission  
+          210146    souadmissions  
+          209056                   
+          165866   framstateadmit  
+          162584                   
+          134945                   
+          139311       claytonadm  
+          191931     icadmissions  
+          123554    smc\_admission  
+          154688                   
+          231712    cnu\_admission  
+          151263  uindyadmissions  
+          151379    iusadmissions  
+          165662   emersonugadmis  
+          212133   eiu\_admissions  
+          195720                   
+          160621                   
+          173045                   
+          189228                   
+          216852    choosewidener  
+          219976       golipscomb  
+          130776   wcsuadmissions  
+          165334                   
+          228149    stmuadmission  
+          172334                   
+          207458                   
+          130697                   
+          221971                   
+          201195      bwadmission  
+          218742                   
+          213613   LHU\_Admissions  
+          197045                   
+          198543   fsu\_admissions  
+          211088     arcadiabound  
+          152600   valpoadmission  
+          236577                   
+          154235                   
+          211291                   
+          197151    svaadmissions  
+          222178    acuadmissions  
+          217518     rwuadmission  
+          234155   vsu\_admissions  
+          214713                   
+          209825                   
+          178341                   
+          150163                   
+          214591   psu\_admissions  
+          130183                   
+          232706  mugradadmission  
+          164580  babsonadmission  
+          137546     stetsonadmit  
+          211352    Cabrini\_Apply  
+          167835                   
+          151342                   
+          193292                   
+          153001                   
+          141097                   
+          240107                   
+          208822                   
+          133553      EmbryRiddle  
+          190770                   
+          164748                   
+          180179    admissionsmsu  
+          162007                   
+          149781    wheatonadmiss  
+          173328                   
+          128106                   
+          212601                   
+          230807                   
+          202763  oileradmissions  
+          207865                   
+          193584    nazadmissions  
+          178059  maryvilleuadmit  
+          198695    HPUadmissions  
+          156286  bellarmineadmit  
+          151290  tech\_admissions  
+          172264                   
+          209612  pacu\_admissions  
+          144962    ec\_admissions  
+          199069  mountadmissions  
+          215099   lasalle\_admiss  
+          174844                   
+          169080                   
+          217165  bryantadmission  
+          168254    wneadmissions  
+          196219                   
+          148584                   
+          192323   lemoynecollege  
+          204501   ObieAdmissions  
+          201548     capadmission  
+          213011                   
+          220613                   
+          224004    ctxadmissions  
+          155089                   
+          236230    plu\_admission  
+          170675    ltuadmissions  
+          215442                   
+          200217                   
+          168227    witadmissions  
+          190044                   
+          136950                   
+          179964                   
+          192925      medailleuga  
+          210401          wuadmit  
+          195474  sienaadmissions  
+          200253                   
+          206914                   
+          147660  NCCardinalAdmit  
+          121309          go2plnu  
+          192703    Admissions\_MC  
+          178387                   
+          213826     marywooduadm  
+          236328                   
+          164173                   
+          143048                   
+          187648                   
+          237367         fsuadmit  
+          212984                   
+          221892                   
+          218238                   
+          166124      hcadmission  
+          220516                   
+          190099                   
+          229267   trincolladmiss  
+          100830                   
+          100724                   
+          176035    muwadmissions  
+          210739                   
+          215743                   
+          179326                   
+          212832                   
+          119173  mountadmissions  
+          175616                   
+          211583                   
+          179043                   
+          107071                   
+          163578                   
+          168740                   
+          168342                   
+          170301                   
+          199111                   
+          101189                   
+          190716                   
+          237792                   
+          167996                   
+          218070                   
+          206862                   
+          168218                   
+          175421                   
+          186432                   
+          238980                   
+          240374    uwpadmissions  
+          183974                   
+          214175                   
+          126669                   
+          166939                   
+          212674                   
+          237066                   
+          139199                   
+          217536                   
+          147679                   
+          238458                   
+          150534                   
+          203775                   
+          173300                   
+          195526                   
+          204194                   
+          226231                   
+          150400                   
+          214272                   
+          218733                   
+          238476                   
+          164562     achoundbound  
+          213385                   
+          194161                   
+          138947                   
+          207582                   
+          213987                   
+          175078                   
+          150066                   
+          166850                   
+          174491                   
+          213996                   
+          227331                   
+          218061                   
+          143084                   
+          161217                   
+          173902     MacAdmission  
+          193353                   
+          195216                   
+          202523                   
+          209506                   
+          184694                   
+          155520                   
+          184773                   
+          212577                   
+          217493                   
+          130934                   
+          189097          bcadmit  
+          204936  OtterbeinUAdmit  
+          210775                   
+          239080                   
+          127185                   
+          204617                   
+          198613                   
+          161086                   
+          201654                   
+          151786  marianadmission  
+          130590                   
+          232609     go2lynchburg  
+          177418                   
+          192192                   
+          226471                   
+          211431                   
+          196112                   
+          198950                   
+          212009                   
+          173647                   
+          170639                   
+          194958                   
+          217688                   
+          107141                   
+          150145                   
+          120254                   
+          197197                   
+          182795                   
+          191630                   
+          204200   MSJ\_Admissions  
+          154350                   
+          163295                   
+          133492                   
+          239318                   
+          110404                   
+          134079                   
+          128498                   
+          221953                   
+          126678                   
+          191515   HamiltonAdmssn  
+          137564                   
+          212656                   
+          177339                   
+          225399                   
+          215105                   
+          190761                   
+          154013                   
+          207324                   
+          216278                   
+          153375                   
+          181446                   
+          238193                   
+          184348                   
+          145646                   
+          128902     CC\_Admission  
+          173258                   
+          101709         Admit\_UM  
+          147244                   
+          204185                   
+          210571                   
+          139144  berryadmissions  
+          210669    gotoallegheny  
+          152530                   
+          219000                   
+          152318                   
+          237932                   
+          204909     OWUAdmission  
+          225247                   
+          140553  mhouseadmission  
+          211468    AdmissionsCCC  
+          110370                   
+          212197                   
+          216524     UrsinusAdmit  
+          198385                   
+          218229                   
+          214157                   
+          162283                   
+          215284                   
+          237330                   
+          211981                   
+          203535                   
+          140960                   
+          174792                   
+          206589                   
+          218973       whywofford  
+          154527                   
+          166674                   
+          219806                   
+          120184                   
+          183239                   
+          167288                   
+          106412                   
+          146481                   
+          152390                   
+          196291                   
+          237899                   
+          206525                   
+          192864                   
+          203845                   
+          216667                   
+          237057                   
+          221351                   
+          109651                   
+          199209                   
+          228343                   
+          125727                   
+          120865                   
+          209922                   
+          197984                   
+          100937                   
+          101435                   
+          115409                   
+          154493                   
+          157386                   
+          211644                   
+          219718                   
+          232566      whylongwood  
+          204635                   
+          181783                   
+          234207    wluadmissions  
+          213783  mansfieldadmiss  
+          153834  LutherAdmission  
+          216694                   
+          188641    admissions\_au  
+          128391                   
+          102377     TUAdmissions  
+          161226                   
+          191676                   
+          153384      gcadmission  
+          153108                   
+          110565                   
+          218663  uofscadmissions  
+          221759    ut\_admissions  
+          450933    admissionscsu  
+          191241    fordham\_admis  
+          206084      utadmission  
+          223232    beabaylorbear  
+          239105     muadmissions  
+          183026                   
+          228529                   
+          133650                   
+          233277  readyforradford  
+          211158                   
+          145619                   
+          192439                   
+          194824    rpiadmissions  
+          215929   uofsadmissions  
+          130253    shuadmissions  
+          170806                   
+          159993                   
+          238430    stritchadmitu  
+          215655    rmuadmissions  
+          173124                   
+          207971                   
+          196200                   
+          144005                   
+          159009   gramfamrecruit  
+          193645                   
+          203368     jcuadmission  
+          147013                   
+          217749                   
+          217864                   
+          207847                   
+          214069  misericordiauad  
+          160904   xulaadmissions  
+          121345      pomonaadmit  
+          146427                   
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}235}]:} \PY{n}{tw\PYZus{}df}\PY{p}{[}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{instnm}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{main\PYZus{}handle}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{adm\PYZus{}handle}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}\PY{o}{.}\PY{n}{to\PYZus{}pickle}\PY{p}{(}\PY{n}{os}\PY{o}{.}\PY{n}{path}\PY{o}{.}\PY{n}{join}\PY{p}{(}\PY{n}{tw\PYZus{}path}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{tw\PYZus{}df\PYZus{}final}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+    \end{document}
