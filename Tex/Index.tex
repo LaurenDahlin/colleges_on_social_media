@@ -284,7 +284,14 @@
 \section{How do colleges talk about diversity on social
 media?}\label{how-do-colleges-talk-about-diversity-on-social-media}}
 
-    Welcome Text
+    Welcome! This project examines the use of Twitter by four-year colleges
+and universities. Specifically, I examine Tweets related to race and
+gender diversity. This page is focused on the analysis of the data. At
+the bottom of this page you will find links to tutorials to guide you
+through reproducing this analysis or recreating it with your own data.
+
+The project repository can be found at
+https://github.com/LaurenDahlin/colleges\_on\_social\_media.
 
     \hypertarget{analysis}{%
 \subsection{Analysis}\label{analysis}}
@@ -293,16 +300,433 @@ media?}\label{how-do-colleges-talk-about-diversity-on-social-media}}
 \subsubsection{The Data and College Tweets in
 General}\label{the-data-and-college-tweets-in-general}}
 
+    The data in this analysis comes from all original (non-retweet) Twitter
+postings made by four-year colleges on their main Twitter pages and
+admissions Twitter pages (if they have a separate admissions page). The
+graph below shows the growth in tweeting by colleges from 2008-2017.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}1}]:} \PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k}{as} \PY{n+nn}{pd}
+        \PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+        \PY{k+kn}{import} \PY{n+nn}{plotly}
+        \PY{k+kn}{import} \PY{n+nn}{plotly}\PY{n+nn}{.}\PY{n+nn}{plotly} \PY{k}{as} \PY{n+nn}{py}
+        \PY{k+kn}{import} \PY{n+nn}{plotly}\PY{n+nn}{.}\PY{n+nn}{graph\PYZus{}objs} \PY{k}{as} \PY{n+nn}{go}
+        \PY{k+kn}{from} \PY{n+nn}{plotly} \PY{k}{import} \PY{n}{tools}
+        \PY{n}{plotly}\PY{o}{.}\PY{n}{tools}\PY{o}{.}\PY{n}{set\PYZus{}credentials\PYZus{}file}\PY{p}{(}\PY{n}{username}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{lauren.n.dahlin}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{api\PYZus{}key}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{9jGO22biut6FCgNae1hC}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{k+kn}{import} \PY{n+nn}{gc}\PY{o}{,} \PY{n+nn}{glob}\PY{o}{,} \PY{n+nn}{re}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}12}]:} \PY{n}{pkl\PYZus{}files} \PY{o}{=} \PY{n}{glob}\PY{o}{.}\PY{n}{glob}\PY{p}{(}\PY{l+s+sa}{r}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{../data/clean/diversity\PYZus{}full\PYZus{}*.pkl}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{append\PYZus{}tweets} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+         \PY{k}{for} \PY{n}{file} \PY{o+ow}{in} \PY{n}{pkl\PYZus{}files}\PY{p}{:}
+             \PY{n}{tw\PYZus{}df} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}pickle}\PY{p}{(}\PY{n}{file}\PY{p}{)}
+             \PY{n}{append\PYZus{}tweets}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{tw\PYZus{}df}\PY{p}{)}
+             \PY{k}{del} \PY{n}{tw\PYZus{}df}
+             \PY{n}{gc}\PY{o}{.}\PY{n}{collect}\PY{p}{(}\PY{p}{)}
+         \PY{n}{diversity\PYZus{}df} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{concat}\PY{p}{(}\PY{n}{append\PYZus{}tweets}\PY{p}{,} \PY{n}{ignore\PYZus{}index}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}4}]:} \PY{n}{diversity\PYZus{}df} \PY{o}{=} \PY{n}{diversity\PYZus{}df}\PY{o}{.}\PY{n}{assign}\PY{p}{(}\PY{n}{year} \PY{o}{=} \PY{n}{diversity\PYZus{}df}\PY{o}{.}\PY{n}{date}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{str}\PY{p}{)}\PY{o}{.}\PY{n}{str}\PY{p}{[}\PY{p}{:}\PY{l+m+mi}{4}\PY{p}{]}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{int}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}7}]:} \PY{n}{year\PYZus{}summary} \PY{o}{=} \PY{n}{diversity\PYZus{}df}\PY{o}{.}\PY{n}{groupby}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{year}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{o}{.}\PY{n}{agg}\PY{p}{(}\PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ipeds\PYZus{}id}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{k}{lambda} \PY{n}{x}\PY{p}{:} \PY{n}{x}\PY{o}{.}\PY{n}{nunique}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{id}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{count}\PY{l+s+s1}{\PYZsq{}}\PY{p}{\PYZcb{}}\PY{p}{)}
+        \PY{n}{year\PYZus{}summary}\PY{o}{.}\PY{n}{reset\PYZus{}index}\PY{p}{(}\PY{n}{level}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{inplace}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+        \PY{n}{year\PYZus{}summary} \PY{o}{=} \PY{n}{year\PYZus{}summary}\PY{p}{[}\PY{n}{year\PYZus{}summary}\PY{o}{.}\PY{n}{year}\PY{o}{\PYZlt{}}\PY{l+m+mi}{2018}\PY{p}{]}
+        \PY{n}{year\PYZus{}summary}\PY{o}{.}\PY{n}{rename}\PY{p}{(}\PY{n}{index}\PY{o}{=}\PY{n+nb}{str}\PY{p}{,} \PY{n}{columns}\PY{o}{=}\PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ipeds\PYZus{}id}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{School Count}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{id}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Tweet Count}\PY{l+s+s1}{\PYZsq{}}\PY{p}{\PYZcb{}}\PY{p}{,} \PY{n}{inplace}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}8}]:} \PY{n}{trace1} \PY{o}{=} \PY{n}{go}\PY{o}{.}\PY{n}{Scatter}\PY{p}{(}
+            \PY{n}{x}\PY{o}{=}\PY{n}{year\PYZus{}summary}\PY{o}{.}\PY{n}{year}\PY{p}{,}
+            \PY{n}{y}\PY{o}{=}\PY{n}{year\PYZus{}summary}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{School Count}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}
+            \PY{n}{name}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{School Count}\PY{l+s+s1}{\PYZsq{}}
+        \PY{p}{)}
+        \PY{n}{trace2} \PY{o}{=} \PY{n}{go}\PY{o}{.}\PY{n}{Scatter}\PY{p}{(}
+            \PY{n}{x}\PY{o}{=}\PY{n}{year\PYZus{}summary}\PY{o}{.}\PY{n}{year}\PY{p}{,}
+            \PY{n}{y}\PY{o}{=}\PY{n}{year\PYZus{}summary}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Tweet Count}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}
+            \PY{n}{name}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Tweet Count}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+            \PY{n}{yaxis}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{y2}\PY{l+s+s1}{\PYZsq{}}
+        \PY{p}{)}
+        \PY{n}{data} \PY{o}{=} \PY{p}{[}\PY{n}{trace1}\PY{p}{,} \PY{n}{trace2}\PY{p}{]}
+        \PY{n}{layout} \PY{o}{=} \PY{n}{go}\PY{o}{.}\PY{n}{Layout}\PY{p}{(}
+            \PY{n}{title}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Total Number of Colleges and Tweets by Year}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+            \PY{n}{yaxis}\PY{o}{=}\PY{n+nb}{dict}\PY{p}{(}
+                \PY{n}{title}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Number of Colleges}\PY{l+s+s1}{\PYZsq{}}
+            \PY{p}{)}\PY{p}{,}
+            \PY{n}{yaxis2}\PY{o}{=}\PY{n+nb}{dict}\PY{p}{(}
+                \PY{n}{title}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Number of Tweets}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                \PY{n}{overlaying}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{y}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                \PY{n}{side}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{right}\PY{l+s+s1}{\PYZsq{}}
+            \PY{p}{)}
+        \PY{p}{)}
+        \PY{n}{fig} \PY{o}{=} \PY{n}{go}\PY{o}{.}\PY{n}{Figure}\PY{p}{(}\PY{n}{data}\PY{o}{=}\PY{n}{data}\PY{p}{,} \PY{n}{layout}\PY{o}{=}\PY{n}{layout}\PY{p}{)}
+        \PY{n}{py}\PY{o}{.}\PY{n}{iplot}\PY{p}{(}\PY{n}{fig}\PY{p}{,} \PY{n}{filename} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{tweets\PYZus{}over\PYZus{}time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}8}]:} <plotly.tools.PlotlyDisplay object>
+\end{Verbatim}
+            
+    We are seeing a slight decline in the number of tweets produced by
+colleges in recent years. This likely reflects a shift in the number of
+platforms being used by colleges to reach students. For example, many
+colleges are now also posting on Instagram.
+
+    \hypertarget{so-what-are-these-colleges-talking-about}{%
+\paragraph{So what are these colleges talking
+about?}\label{so-what-are-these-colleges-talking-about}}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}20}]:} \PY{k+kn}{from} \PY{n+nn}{os} \PY{k}{import} \PY{n}{path}
+         \PY{k+kn}{from} \PY{n+nn}{PIL} \PY{k}{import} \PY{n}{Image}
+         \PY{k+kn}{from} \PY{n+nn}{wordcloud} \PY{k}{import} \PY{n}{WordCloud}\PY{p}{,} \PY{n}{STOPWORDS}\PY{p}{,} \PY{n}{ImageColorGenerator}
+         \PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}16}]:} \PY{c+c1}{\PYZsh{} Data is too big for memory. Take a random sample of 10\PYZpc{}}
+         \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{seed}\PY{p}{(}\PY{l+m+mi}{12345}\PY{p}{)}
+         \PY{c+c1}{\PYZsh{} Create a column with random number \PYZhy{} will be used to subset the data}
+         \PY{n}{diversity\PYZus{}df} \PY{o}{=} \PY{n}{diversity\PYZus{}df}\PY{o}{.}\PY{n}{assign}\PY{p}{(}\PY{n}{rand\PYZus{}int} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{randint}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{99}\PY{p}{,} \PY{n}{diversity\PYZus{}df}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}17}]:} \PY{n}{diversity\PYZus{}df} \PY{o}{=} \PY{n}{diversity\PYZus{}df}\PY{o}{.}\PY{n}{assign}\PY{p}{(}\PY{n}{words}\PY{o}{=}\PY{n}{diversity\PYZus{}df}\PY{o}{.}\PY{n}{words}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{str}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}18}]:} \PY{n}{text} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZdq{}}\PY{o}{.}\PY{n}{join}\PY{p}{(}\PY{n}{tw} \PY{k}{for} \PY{n}{tw} \PY{o+ow}{in} \PY{n}{diversity\PYZus{}df}\PY{p}{[}\PY{n}{diversity\PYZus{}df}\PY{o}{.}\PY{n}{rand\PYZus{}int}\PY{o}{\PYZlt{}}\PY{l+m+mi}{10}\PY{p}{]}\PY{o}{.}\PY{n}{words}\PY{p}{)}
+         \PY{n}{text} \PY{o}{=} \PY{n}{re}\PY{o}{.}\PY{n}{sub}\PY{p}{(}\PY{l+s+sa}{r}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{([\PYZca{}}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{s}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{w]|\PYZus{})+}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{text}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}21}]:} \PY{c+c1}{\PYZsh{} https://www.datacamp.com/community/tutorials/wordcloud\PYZhy{}python}
+         \PY{n}{wordcloud} \PY{o}{=} \PY{n}{WordCloud}\PY{p}{(}\PY{n}{max\PYZus{}font\PYZus{}size}\PY{o}{=}\PY{l+m+mi}{50}\PY{p}{,} \PY{n}{max\PYZus{}words}\PY{o}{=}\PY{l+m+mi}{100}\PY{p}{,} \PY{n}{background\PYZus{}color}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{white}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{o}{.}\PY{n}{generate}\PY{p}{(}\PY{n}{text}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{imshow}\PY{p}{(}\PY{n}{wordcloud}\PY{p}{,} \PY{n}{interpolation}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{bilinear}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{off}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{index_files/index_16_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    Perhaps not surprisingly, most of these words are very generic words
+related to college and accolades: student, learn, congrat
+(congratulations), thank, campu (campus), and communiti (community).
+Note that the words are stemmed from earlier pre-processing of the data.
+
     \hypertarget{diversity-specific-tweeting}{%
 \subsubsection{Diversity-Specific
 Tweeting}\label{diversity-specific-tweeting}}
 
-    \hypertarget{how-does-diversity-specific-tweeting-vary-with-university-characteristics}{%
-\subsubsection{How does diversity-specific tweeting vary with university
-characteristics?}\label{how-does-diversity-specific-tweeting-vary-with-university-characteristics}}
+    Now, let's look at the diversity-specific tweets. I have flagged tweets
+that mention ``diversity'' and ``multicultural'', as well as tweets with
+race (`black', `african', `asian', `hispan', `latino', `latina') and
+gender (`woman', `women',`gender') -related words. How have the
+frequency of these words changed over time?
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}31}]:} \PY{n}{diversity\PYZus{}df} \PY{o}{=} \PY{n}{diversity\PYZus{}df}\PY{o}{.}\PY{n}{assign}\PY{p}{(}\PY{n}{year} \PY{o}{=} \PY{n}{diversity\PYZus{}df}\PY{o}{.}\PY{n}{date}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{str}\PY{p}{)}\PY{o}{.}\PY{n}{str}\PY{p}{[}\PY{p}{:}\PY{l+m+mi}{4}\PY{p}{]}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{int}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}32}]:} \PY{n}{year\PYZus{}summary2} \PY{o}{=} \PY{n}{diversity\PYZus{}df}\PY{o}{.}\PY{n}{groupby}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{year}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{o}{.}\PY{n}{agg}\PY{p}{(}\PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{diversity\PYZus{}flag}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{sum}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{race\PYZus{}flag}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{sum}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{gender\PYZus{}flag}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{sum}\PY{l+s+s1}{\PYZsq{}}\PY{p}{\PYZcb{}}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}34}]:} \PY{n}{year\PYZus{}summary2}\PY{o}{.}\PY{n}{reset\PYZus{}index}\PY{p}{(}\PY{n}{level}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{inplace}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+         \PY{n}{year\PYZus{}summary2} \PY{o}{=} \PY{n}{year\PYZus{}summary2}\PY{p}{[}\PY{n}{year\PYZus{}summary2}\PY{o}{.}\PY{n}{year}\PY{o}{\PYZlt{}}\PY{l+m+mi}{2018}\PY{p}{]}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}36}]:} \PY{n}{year\PYZus{}summary2}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}36}]:}     year  diversity\_flag  race\_flag  gender\_flag
+         0   2007             0.0        0.0          1.0
+         1   2008            36.0       83.0        482.0
+         2   2009           435.0     1148.0       4078.0
+         3   2010           682.0     1824.0       5792.0
+         4   2011           911.0     2733.0       7482.0
+         5   2012          1180.0     3460.0       9656.0
+         6   2013          1487.0     3671.0      10411.0
+         7   2014          1903.0     3721.0       9665.0
+         8   2015          2063.0     4159.0       8917.0
+         9   2016          2515.0     3972.0       7862.0
+         10  2017          2781.0     4095.0       8025.0
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}37}]:} \PY{n}{trace1} \PY{o}{=} \PY{n}{go}\PY{o}{.}\PY{n}{Scatter}\PY{p}{(}
+             \PY{n}{x}\PY{o}{=}\PY{n}{year\PYZus{}summary2}\PY{o}{.}\PY{n}{year}\PY{p}{,}
+             \PY{n}{y}\PY{o}{=}\PY{n}{year\PYZus{}summary2}\PY{o}{.}\PY{n}{diversity\PYZus{}flag}\PY{p}{,}
+             \PY{n}{name}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Diversity Tweet Count}\PY{l+s+s1}{\PYZsq{}}
+         \PY{p}{)}
+         \PY{n}{trace2} \PY{o}{=} \PY{n}{go}\PY{o}{.}\PY{n}{Scatter}\PY{p}{(}
+             \PY{n}{x}\PY{o}{=}\PY{n}{year\PYZus{}summary2}\PY{o}{.}\PY{n}{year}\PY{p}{,}
+             \PY{n}{y}\PY{o}{=}\PY{n}{year\PYZus{}summary2}\PY{o}{.}\PY{n}{race\PYZus{}flag}\PY{p}{,}
+             \PY{n}{name}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Race Tweet Count}\PY{l+s+s1}{\PYZsq{}}
+         \PY{p}{)}
+         \PY{n}{trace3} \PY{o}{=} \PY{n}{go}\PY{o}{.}\PY{n}{Scatter}\PY{p}{(}
+             \PY{n}{x}\PY{o}{=}\PY{n}{year\PYZus{}summary2}\PY{o}{.}\PY{n}{year}\PY{p}{,}
+             \PY{n}{y}\PY{o}{=}\PY{n}{year\PYZus{}summary2}\PY{o}{.}\PY{n}{gender\PYZus{}flag}\PY{p}{,}
+             \PY{n}{name}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Gender Tweet Count}\PY{l+s+s1}{\PYZsq{}}
+         \PY{p}{)}
+         \PY{n}{data} \PY{o}{=} \PY{p}{[}\PY{n}{trace1}\PY{p}{,} \PY{n}{trace2}\PY{p}{,} \PY{n}{trace3}\PY{p}{]}
+         \PY{n}{layout} \PY{o}{=} \PY{n}{go}\PY{o}{.}\PY{n}{Layout}\PY{p}{(}
+             \PY{n}{title}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Total Number of Diversity\PYZhy{}Related Tweets by Year}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+             \PY{n}{yaxis}\PY{o}{=}\PY{n+nb}{dict}\PY{p}{(}
+                 \PY{n}{title}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Number of Tweets}\PY{l+s+s1}{\PYZsq{}}
+             \PY{p}{)}
+         \PY{p}{)}
+         \PY{n}{fig} \PY{o}{=} \PY{n}{go}\PY{o}{.}\PY{n}{Figure}\PY{p}{(}\PY{n}{data}\PY{o}{=}\PY{n}{data}\PY{p}{,} \PY{n}{layout}\PY{o}{=}\PY{n}{layout}\PY{p}{)}
+         \PY{n}{py}\PY{o}{.}\PY{n}{iplot}\PY{p}{(}\PY{n}{fig}\PY{p}{,} \PY{n}{filename} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{diversity\PYZus{}tweets\PYZus{}over\PYZus{}time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}37}]:} <plotly.tools.PlotlyDisplay object>
+\end{Verbatim}
+            
+    Interestingly, the number of gender-related tweets has decreased in
+recent years. This may reflect the fact that women are now the majority
+of applicants and degree-holders at U.S. universities.
+
+    \hypertarget{a-sample-of-diversity-related-tweets}{%
+\paragraph{A sample of diversity-related
+tweets:}\label{a-sample-of-diversity-related-tweets}}
+
+    Note that flagging based on keywords alone does not produce a perfect
+match to diversity-related tweets.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}60}]:} \PY{n}{pd}\PY{o}{.}\PY{n}{set\PYZus{}option}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{max\PYZus{}colwidth}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+m+mi}{200}\PY{p}{)}
+         \PY{k}{for} \PY{n}{index}\PY{p}{,}\PY{n}{row} \PY{o+ow}{in} \PY{n}{diversity\PYZus{}df}\PY{p}{[}\PY{p}{(}\PY{n}{diversity\PYZus{}df}\PY{o}{.}\PY{n}{rand\PYZus{}int}\PY{o}{\PYZlt{}}\PY{l+m+mi}{1}\PY{p}{)} \PY{o}{\PYZam{}} \PY{p}{(}\PY{n}{diversity\PYZus{}df}\PY{o}{.}\PY{n}{diversity\PYZus{}flag}\PY{o}{==}\PY{k+kc}{True}\PY{p}{)}\PY{p}{]}\PY{p}{[}\PY{p}{:}\PY{l+m+mi}{20}\PY{p}{]}\PY{o}{.}\PY{n}{iterrows}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+             \PY{n+nb}{print}\PY{p}{(}\PY{n}{row}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tweet}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+UA Students to Present ‘Diversity Demonstrated’  http://bit.ly/IKzQ9I 
+The Department of English and Foreign Languages and the Office of Multicultural Affairs invite UM students,{\ldots}  http://fb.me/Nj2iJJ7G
+Meaningful conversations: Black Student Union president Andrew Freed is passionate about enhancing diversity at \#UAA  http://ow.ly/KvFHJ .
+\#SoCaltech is an occasional series celebrating the diverse individuals who give Caltech its spirit of excellence, ambition, and ingenuity. Know someone we should profile? Send nominations to magazine@caltech.edu. pic.twitter.com/BplE0rwLgA
+Stay strong and stop bullying--Join the Office of Diversity for a group photo in front of Kendall Hall @ 12pm today! pic.twitter.com/Cbg7EHLDRp
+Cross Cultural Week! Check out the multicultural sorority \& fraternity booths till 1p \#FresWOW  http://bit.ly/FSXCultural  pic.twitter.com/oVqYnBdQ3T
+\#inaug2013: Garcia: It is important that  as our country becomes more diverse that we live up to our promise of equal education for all.
+Is \#highered a right or a privilege? Join the discussion at the @asi\_csueb Diversity Center on March 5 at 4pm. Details -->{\ldots}
+\#UCDavis celebrates diversity in children's books on Mar 5 w/ presentations by author Belle Yang  http://ow.ly/18Meg
+@USNewsEducation ranked UCLA as one of the top 10 most diverse universities in the U.S.  http://bit.ly/1UXSiBD  \#BruinBound
+Community. Diversity. Inclusion. That's why \#UCRStandsTogether. Continue to share your photos! \#Highlanderpride \#ucr \#ucriverside https://twitter.com/natnoota/status/826684680074260480 …
+50th entering class distinguished by academic achievement, diversity  http://news.ucsc.edu/2015/09/fall2015-start.html … \#UCSC pic.twitter.com/7chTE21Qha
+UCSC Research: Low extinction rates made California a refuge for diverse plant species.  http://tinyurl.com/ax38p32 
+October is DiversAbility Month at SDSU. Here's how you can get involved: http://ow.ly/T2Xe4 
+SDSU Diversity Director got a behind the scenese look at U.S. Marine Corps Base Quantico  http://budurl.com/w7vk Brings lessons back to SDSU
+Inside @UofSanDiego: @USDufmc Multicultural Night is One for All  http://www.sandiego.edu/insideusd/?p=34181 … \#insideusd @USDCID @torerolife @usdgradlawlife
+\#SFSU professors of cinema have mixed opinions on whether progress has been made in making the \#Oscars more diverse.  http://bit.ly/2kaOcwl  pic.twitter.com/VzkWJkOyRT
+The Office of Diversity Engagement and Community Outreach is hosting drop-in hours for faculty and staff this week: http://ow.ly/hSZS30663lu 
+\#USFCA ranks 7th in the nation of most ethnically diverse student population @USNews  http://ow.ly/S6hZo  pic.twitter.com/k6BniPBtgY
+MT @uscannenberg: New @MDSCInitiative study \#CARD2016 grades Hollywood on diversity:  http://bit.ly/1RWAzeS 
+
+    \end{Verbatim}
+
+    \hypertarget{what-kinds-of-images-are-associated-with-diversity-related-tweets}{%
+\subsubsection{What kinds of images are associated with
+diversity-related
+tweets?}\label{what-kinds-of-images-are-associated-with-diversity-related-tweets}}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}52}]:} \PY{k+kn}{from} \PY{n+nn}{IPython}\PY{n+nn}{.}\PY{n+nn}{display} \PY{k}{import} \PY{n}{Image}
+         \PY{k+kn}{from} \PY{n+nn}{IPython}\PY{n+nn}{.}\PY{n+nn}{core}\PY{n+nn}{.}\PY{n+nn}{display} \PY{k}{import} \PY{n}{HTML} 
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}59}]:} \PY{k}{for} \PY{n}{index}\PY{p}{,}\PY{n}{row} \PY{o+ow}{in} \PY{n}{diversity\PYZus{}df}\PY{p}{[}\PY{p}{(}\PY{n}{diversity\PYZus{}df}\PY{o}{.}\PY{n}{rand\PYZus{}int}\PY{o}{\PYZlt{}}\PY{l+m+mi}{1}\PY{p}{)} \PY{o}{\PYZam{}} \PY{p}{(}\PY{n}{diversity\PYZus{}df}\PY{o}{.}\PY{n}{diversity\PYZus{}flag}\PY{o}{==}\PY{k+kc}{True}\PY{p}{)}\PY{p}{]}\PY{p}{[}\PY{p}{:}\PY{l+m+mi}{50}\PY{p}{]}\PY{o}{.}\PY{n}{iterrows}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+             \PY{k}{if} \PY{n}{row}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{photos}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{!=} \PY{p}{[}\PY{p}{]}\PY{p}{:}
+                 \PY{n}{display}\PY{p}{(}\PY{n}{Image}\PY{p}{(}\PY{n}{row}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{photos}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{unconfined}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{index_files/index_31_0.jpeg}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{index_files/index_31_1.jpeg}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{index_files/index_31_2.jpeg}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{index_files/index_31_3.jpeg}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{index_files/index_31_4.jpeg}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{index_files/index_31_5.jpeg}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{index_files/index_31_6.jpeg}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{index_files/index_31_7.jpeg}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{index_files/index_31_8.jpeg}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{index_files/index_31_9.jpeg}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{index_files/index_31_10.jpeg}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{index_files/index_31_11.jpeg}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{index_files/index_31_12.jpeg}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{index_files/index_31_13.jpeg}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{index_files/index_31_14.jpeg}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{index_files/index_31_15.jpeg}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{index_files/index_31_16.jpeg}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{index_files/index_31_17.jpeg}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{index_files/index_31_18.jpeg}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    There are many kinds of images associated with diversity in these
+tweets. They range from flyers for diversity-related events to
+stereotypical photos of college students of different backgrounds
+working and studying together.
 
     \hypertarget{tutorials-and-code}{%
 \subsection{Tutorials and Code}\label{tutorials-and-code}}
+
+    \begin{itemize}
+\tightlist
+\item
+  \textbf{Tutorial: How to Search for Webpages on Google and Scrape
+  Social Media URLS}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Objective: Use Python to search for an entity (e.g.~a school or
+    company) on Google. Navigate to the first Google search result and
+    scrape any Twitter, Facebook, and Instagram pages.
+  \item
+    \href{https://laurendahlin.github.io/colleges_on_social_media/Html/01_scrape_social_handles_final}{Link}
+  \end{itemize}
+\item
+  \textbf{Code: Review Twitter Handles from Search in a Semi-Automated
+  Fashion}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Objective: Convert Twitter URLs to handles. Inspect the URLs and
+    check for quality of match. If webpage did not contain a Twitter
+    URL, search for the Twitter page on Google.
+  \item
+    \href{https://laurendahlin.github.io/colleges_on_social_media/Html/02_twitter_username_etl_final}{Link}
+  \end{itemize}
+\item
+  \textbf{Tutorial: How to Scrape Tweets of Twitter Users (Handles) and
+  Get Around Twitter API Limits}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Objective: Get entire history of tweets for particular Twitter users
+    using their handles. Avoid any limits put in place by the Twitter
+    API.
+  \item
+    \href{https://laurendahlin.github.io/colleges_on_social_media/Html/03_scrape_tweets_final}{Link}
+  \end{itemize}
+\item
+  \textbf{Tutorial: How to Process Tweets for Text Analysis}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Objective: Process Tweets for text analysis including topic
+    modelling and wordcloud visualization. Processing includes
+    separating words within hashtags, removing entity-specific words,
+    stop words, and lemmatization.
+  \item
+    \href{https://laurendahlin.github.io/colleges_on_social_media/Html/04_tweet_processing}{Link}
+  \end{itemize}
+\end{itemize}
 
 
     % Add a bibliography block to the postdoc
