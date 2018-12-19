@@ -3,3 +3,5 @@ Analyze how 4-year colleges and universities use social media with an emphasis o
 
 The Jupyter notebooks were translated into HTML pages using JupyterSite. View the Jupyter site at: 
 https://laurendahlin.github.io/colleges_on_social_media/ 
+
+The JupyterSite Project: https://github.com/ChrisRackauckas/JupyterSite
