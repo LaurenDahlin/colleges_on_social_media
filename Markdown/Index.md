@@ -19,7 +19,7 @@ import plotly
 import plotly.plotly as py
 import plotly.graph_objs as go
 from plotly import tools
-plotly.tools.set_credentials_file(username='lauren.n.dahlin', api_key='9jGO22biut6FCgNae1hC')
+plotly.tools.set_credentials_file(username='your.username', api_key='your.api.key')
 import gc, glob, re
 ```
 
